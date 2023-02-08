@@ -2,7 +2,9 @@ apply plugin: 'com.android.library'
 apply plugin: "com.jaredsburrows.license"
 apply plugin: 'kotlin-android'
 apply from: "${rootDir}/gradle/native-build.gradle"
+//apply plugin: 'com.github.dcendents.android-maven'
 
+group='com.github.vietmap-company'
 dependencies {
     testImplementation project(path: ':MapboxGLAndroidSDK')
     lintChecks project(":MapboxGLAndroidSDKLint")
@@ -76,6 +78,10 @@ android {
         debug {
             testCoverageEnabled false
             jniDebuggable true
+        }
+        dev {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
