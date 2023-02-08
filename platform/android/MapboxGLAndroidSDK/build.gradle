@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android'
 apply from: "${rootDir}/gradle/native-build.gradle"
 //apply plugin: 'com.github.dcendents.android-maven'
 
-group='com.github.vietmap-company'
+group='com.github.thanhdt1998'
 dependencies {
     testImplementation project(path: ':MapboxGLAndroidSDK')
     lintChecks project(":MapboxGLAndroidSDKLint")
