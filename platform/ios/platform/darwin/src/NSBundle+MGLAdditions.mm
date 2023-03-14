@@ -1,13 +1,13 @@
 #import "NSBundle+MGLAdditions.h"
 
-#import "MGLSettings.h"
+#import "VMGLSettings.h"
 
-const MGLExceptionName MGLBundleNotFoundException = @"MGLBundleNotFoundException";
+const VMGLExceptionName MGLBundleNotFoundException = @"MGLBundleNotFoundException";
 
 @implementation NSBundle (MGLAdditions)
 
 + (instancetype)mgl_frameworkBundle {
-    NSBundle *bundle = [self bundleForClass:[MGLSettings class]];
+    NSBundle *bundle = [self bundleForClass:[VMGLSettings class]];
 
     if (![bundle.infoDictionary[@"CFBundlePackageType"] isEqualToString:@"FMWK"]) {
         // For static frameworks, the bundle is the containing application

@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// animation duration of UIScrollView when using @c -setContentOffset:animated.
 extern NSTimeInterval const kMGLSMCalloutViewRepositionDelayForUIScrollView;
 
-@protocol MGLSMCalloutViewDelegate;
+@protocol VMGLSMCalloutViewDelegate;
 @class MGLSMCalloutBackgroundView;
 
 //
@@ -47,7 +47,7 @@ extern NSTimeInterval const kMGLSMCalloutViewRepositionDelayForUIScrollView;
 @interface MGLSMCalloutView : UIView <CAAnimationDelegate>
 #endif
 
-@property (nonatomic, weak, nullable) id<MGLSMCalloutViewDelegate> delegate;
+@property (nonatomic, weak, nullable) id<VMGLSMCalloutViewDelegate> delegate;
 /// title/titleView relationship mimics UINavigationBar.
 @property (nonatomic, copy, nullable) NSString *title;
 @property (nonatomic, copy, nullable) NSString *subtitle;
@@ -177,7 +177,7 @@ extern NSTimeInterval const kMGLSMCalloutViewRepositionDelayForUIScrollView;
 // Delegate methods
 //
 
-@protocol MGLSMCalloutViewDelegate <NSObject>
+@protocol VMGLSMCalloutViewDelegate <NSObject>
 @optional
 
 /// Controls whether the callout "highlights" when pressed. default YES. You must also respond to @c -calloutViewClicked below.

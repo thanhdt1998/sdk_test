@@ -1,7 +1,7 @@
 #import "NSValue+MGLStyleAttributeAdditions.h"
-#import "MGLLight.h"
-#import "MGLLoggingConfiguration_Private.h"
-#import "MGLGeometry_Private.h"
+#import "VMGLLight.h"
+#import "VMGLLoggingConfiguration_Private.h"
+#import "VMGLGeometry_Private.h"
 #if TARGET_OS_IPHONE
     #import <UIKit/UIKit.h>
 #endif

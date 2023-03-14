@@ -42,7 +42,7 @@
     XCTAssertEqual(tileSet.zoomRange.max, 2);
 
     // when the tile set has a bounds set
-    MGLCoordinateBounds bounds = MGLCoordinateBoundsMake(CLLocationCoordinate2DMake(12, 34), CLLocationCoordinate2DMake(56, 78));
+    VMGLCoordinateBounds bounds = MGLCoordinateBoundsMake(CLLocationCoordinate2DMake(12, 34), CLLocationCoordinate2DMake(56, 78));
     tileSet = MGLTileSetFromTileURLTemplates(@[@"tile.1"], @{
         MGLTileSourceOptionCoordinateBounds: @(bounds),
     });
@@ -50,7 +50,7 @@
     // the mbgl object reflects the set values for the bounds
     XCTAssert(!!tileSet.bounds, @"The bounds are set after setting the bounds");
     if (tileSet.bounds) {
-        MGLCoordinateBounds actual = MGLCoordinateBoundsFromLatLngBounds(*tileSet.bounds);
+        VMGLCoordinateBounds actual = MGLCoordinateBoundsFromLatLngBounds(*tileSet.bounds);
         XCTAssert(MGLCoordinateBoundsEqualToCoordinateBounds(bounds, actual), @"The bounds round-trip");
     }
 
@@ -64,7 +64,7 @@
     XCTAssertEqual(tileSet.attribution, attribution.UTF8String);
 
     // when the tile set has attribution infos
-    MGLAttributionInfo *mapboxInfo = [[MGLAttributionInfo alloc] initWithTitle:[[NSAttributedString alloc] initWithString:@"Mapbox"]
+    VMGLAttributionInfo *mapboxInfo = [[VMGLAttributionInfo alloc] initWithTitle:[[NSAttributedString alloc] initWithString:@"Mapbox"]
                                                                            URL:[NSURL URLWithString:@"https://www.mapbox.com/"]];
 #if TARGET_OS_IPHONE
     UIColor *redColor = [UIColor redColor];
@@ -78,7 +78,7 @@
     NSAttributedString *gl = [[NSAttributedString alloc] initWithString:@"GL" attributes:@{
         NSBackgroundColorAttributeName: redColor,
     }];
-    MGLAttributionInfo *glInfo = [[MGLAttributionInfo alloc] initWithTitle:gl URL:nil];
+    VMGLAttributionInfo *glInfo = [[VMGLAttributionInfo alloc] initWithTitle:gl URL:nil];
     tileSet = MGLTileSetFromTileURLTemplates(tileURLTemplates, @{
         MGLTileSourceOptionAttributionInfos: @[mapboxInfo, glInfo],
     });

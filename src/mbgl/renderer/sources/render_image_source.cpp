@@ -32,7 +32,7 @@ void ImageSourceRenderData::upload(gfx::UploadPass& uploadPass) const {
 }
 
 void ImageSourceRenderData::render(PaintParameters& parameters) const {
-    if (!bucket || !(parameters.debugOptions & MapDebugOptions::TileBorders)) {
+    if (!bucket || !(parameters.debugOptions & VMGLDebugOptions::TileBorders)) {
         return;
     }
     assert(debugTexture);

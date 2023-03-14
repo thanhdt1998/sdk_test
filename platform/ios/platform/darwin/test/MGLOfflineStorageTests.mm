@@ -29,7 +29,7 @@
     XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:cacheDirectoryURL.path], @"Directory containing database should exist.");
     
     NSURL *cacheURL = [cacheDirectoryURL URLByAppendingPathComponent:@"cache.db"];
-    XCTAssertEqualObjects(cacheURL, MGLOfflineStorage.sharedOfflineStorage.databaseURL);
+    XCTAssertEqualObjects(cacheURL, VMGLOfflineStorage.sharedOfflineStorage.databaseURL);
     
     [[NSFileManager defaultManager] removeItemAtURL:cacheURL error:nil];
     XCTAssertFalse([[NSFileManager defaultManager] fileExistsAtPath:cacheURL.path], @"Database should not exist.");
@@ -37,26 +37,26 @@
 
 - (void)setUp {
     [super setUp];
-    [MGLSettings useWellKnownTileServer:MGLMapTiler];
+    [VMGLSettings useWellKnownTileServer:MGLMapTiler];
     
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        XCTestExpectation *expectation = [self keyValueObservingExpectationForObject:[MGLOfflineStorage sharedOfflineStorage] keyPath:@"packs" handler:^BOOL(id _Nonnull observedObject, NSDictionary * _Nonnull change) {
+        XCTestExpectation *expectation = [self keyValueObservingExpectationForObject:[VMGLOfflineStorage sharedOfflineStorage] keyPath:@"packs" handler:^BOOL(id _Nonnull observedObject, NSDictionary * _Nonnull change) {
             const auto changeKind = static_cast<NSKeyValueChange>([change[NSKeyValueChangeKindKey] unsignedLongValue]);
             return changeKind == NSKeyValueChangeSetting;
         }];
-        if ([MGLOfflineStorage sharedOfflineStorage].packs) {
+        if ([VMGLOfflineStorage sharedOfflineStorage].packs) {
             [expectation fulfill];
             [self waitForExpectationsWithTimeout:0 handler:nil];
         } else {
             [self waitForExpectationsWithTimeout:10 handler:nil];
         }
 
-        XCTAssertNotNil([MGLOfflineStorage sharedOfflineStorage].packs, @"Shared offline storage object should have a non-nil collection of packs by this point.");
+        XCTAssertNotNil([VMGLOfflineStorage sharedOfflineStorage].packs, @"Shared offline storage object should have a non-nil collection of packs by this point.");
     });
 }
 
-- (NSURL *)offlineStorage:(MGLOfflineStorage *)storage
+- (NSURL *)offlineStorage:(VMGLOfflineStorage *)storage
      URLForResourceOfKind:(MGLResourceKind)kind
                   withURL:(NSURL *)url {
     if ([url.scheme isEqual: @"test"] && [url.host isEqual: @"api"]) {
@@ -67,20 +67,20 @@
 }
 
 - (void)testSharedObject {
-    XCTAssertEqual([MGLOfflineStorage sharedOfflineStorage], [MGLOfflineStorage sharedOfflineStorage], @"There should only be one shared offline storage object.");
+    XCTAssertEqual([VMGLOfflineStorage sharedOfflineStorage], [VMGLOfflineStorage sharedOfflineStorage], @"There should only be one shared offline storage object.");
 }
 
 - (void)testAddPackForBounds {
-    NSUInteger countOfPacks = [MGLOfflineStorage sharedOfflineStorage].packs.count;
+    NSUInteger countOfPacks = [VMGLOfflineStorage sharedOfflineStorage].packs.count;
 
-    NSURL *styleURL = [[MGLStyle predefinedStyle:@"Bright"] url];
+    NSURL *styleURL = [[VMGLStyle predefinedStyle:@"Bright"] url];
     /// Somewhere near Grape Grove, Ohio, United States.
-    MGLCoordinateBounds bounds = {
+    VMGLCoordinateBounds bounds = {
         { .latitude = 39.70358155855172, .longitude = -83.69506472545841 },
         { .latitude = 39.703818870225376, .longitude = -83.69420641857361 },
     };
     double zoomLevel = 20;
-    MGLTilePyramidOfflineRegion *region = [[MGLTilePyramidOfflineRegion alloc] initWithStyleURL:styleURL bounds:bounds fromZoomLevel:zoomLevel toZoomLevel:zoomLevel];
+    VMGLTilePyramidOfflineRegion  *region = [[VMGLTilePyramidOfflineRegion  alloc] initWithStyleURL:styleURL bounds:bounds fromZoomLevel:zoomLevel toZoomLevel:zoomLevel];
 
     NSString *nameKey = @"Name";
     NSString *name = @"🍇 Grape Grove";
@@ -90,13 +90,13 @@
     }];
 
     __block MGLOfflinePack *pack;
-    [self keyValueObservingExpectationForObject:[MGLOfflineStorage sharedOfflineStorage] keyPath:@"packs" handler:^BOOL(id _Nonnull observedObject, NSDictionary * _Nonnull change) {
+    [self keyValueObservingExpectationForObject:[VMGLOfflineStorage sharedOfflineStorage] keyPath:@"packs" handler:^BOOL(id _Nonnull observedObject, NSDictionary * _Nonnull change) {
         const auto changeKind = static_cast<NSKeyValueChange>([change[NSKeyValueChangeKindKey] unsignedLongValue]);
         NSIndexSet *indices = change[NSKeyValueChangeIndexesKey];
         return changeKind == NSKeyValueChangeInsertion && indices.count == 1;
     }];
     XCTestExpectation *additionCompletionHandlerExpectation = [self expectationWithDescription:@"add pack completion handler"];
-    [[MGLOfflineStorage sharedOfflineStorage] addPackForRegion:region withContext:context completionHandler:^(MGLOfflinePack * _Nullable completionHandlerPack, NSError * _Nullable error) {
+    [[VMGLOfflineStorage sharedOfflineStorage] addPackForRegion:region withContext:context completionHandler:^(MGLOfflinePack * _Nullable completionHandlerPack, NSError * _Nullable error) {
         XCTAssertNotNil(completionHandlerPack, @"Added pack should exist.");
         XCTAssertEqual(completionHandlerPack.state, MGLOfflinePackStateInactive, @"New pack should initially have inactive state.");
         pack = completionHandlerPack;
@@ -104,9 +104,9 @@
     }];
     [self waitForExpectationsWithTimeout:5 handler:nil];
 
-    XCTAssertEqual([MGLOfflineStorage sharedOfflineStorage].packs.count, countOfPacks + 1, @"Added pack should have been added to the canonical collection of packs owned by the shared offline storage object. This assertion can fail if this test is run before -testAAALoadPacks.");
+    XCTAssertEqual([VMGLOfflineStorage sharedOfflineStorage].packs.count, countOfPacks + 1, @"Added pack should have been added to the canonical collection of packs owned by the shared offline storage object. This assertion can fail if this test is run before -testAAALoadPacks.");
 
-    XCTAssertEqual(pack, [MGLOfflineStorage sharedOfflineStorage].packs.lastObject, @"Pack should be appended to end of packs array.");
+    XCTAssertEqual(pack, [VMGLOfflineStorage sharedOfflineStorage].packs.lastObject, @"Pack should be appended to end of packs array.");
 
     XCTAssertEqualObjects(pack.region, region, @"Added pack’s region has changed.");
 
@@ -160,13 +160,13 @@
 }
 
 - (void)testAddPackForGeometry {
-    NSUInteger countOfPacks = [MGLOfflineStorage sharedOfflineStorage].packs.count;
+    NSUInteger countOfPacks = [VMGLOfflineStorage sharedOfflineStorage].packs.count;
 
-    NSURL *styleURL = [[MGLStyle predefinedStyle:@"Bright"] url];
+    NSURL *styleURL = [[VMGLStyle predefinedStyle:@"Bright"] url];
     double zoomLevel = 20;
     NSString *geojson = @"{ \"type\": \"Polygon\", \"coordinates\": [ [ [ 5.1299285888671875, 52.10365839097971 ], [ 5.103063583374023, 52.110037078604236 ], [ 5.080232620239258, 52.09548601177304 ], [ 5.106925964355469, 52.07987524347506 ], [ 5.1299285888671875, 52.10365839097971 ] ] ]}";
     NSError *error;
-    MGLShape *shape = [MGLShape shapeWithData: [geojson dataUsingEncoding:NSUTF8StringEncoding] encoding: NSUTF8StringEncoding error:&error];
+    VMGLShape *shape = [VMGLShape shapeWithData: [geojson dataUsingEncoding:NSUTF8StringEncoding] encoding: NSUTF8StringEncoding error:&error];
     XCTAssertNil(error);
     MGLShapeOfflineRegion *region = [[MGLShapeOfflineRegion alloc] initWithStyleURL:styleURL shape:shape fromZoomLevel:zoomLevel toZoomLevel:zoomLevel];
     region.includesIdeographicGlyphs = NO;
@@ -177,13 +177,13 @@
     NSData *context = [NSKeyedArchiver archivedDataWithRootObject:@{nameKey: name}];
 
     __block MGLOfflinePack *pack;
-    [self keyValueObservingExpectationForObject:[MGLOfflineStorage sharedOfflineStorage] keyPath:@"packs" handler:^BOOL(id _Nonnull observedObject, NSDictionary * _Nonnull change) {
+    [self keyValueObservingExpectationForObject:[VMGLOfflineStorage sharedOfflineStorage] keyPath:@"packs" handler:^BOOL(id _Nonnull observedObject, NSDictionary * _Nonnull change) {
         const auto changeKind = static_cast<NSKeyValueChange>([change[NSKeyValueChangeKindKey] unsignedLongValue]);
         NSIndexSet *indices = change[NSKeyValueChangeIndexesKey];
         return changeKind == NSKeyValueChangeInsertion && indices.count == 1;
     }];
     XCTestExpectation *additionCompletionHandlerExpectation = [self expectationWithDescription:@"add pack completion handler"];
-    [[MGLOfflineStorage sharedOfflineStorage] addPackForRegion:region withContext:context completionHandler:^(MGLOfflinePack * _Nullable completionHandlerPack, NSError * _Nullable error) {
+    [[VMGLOfflineStorage sharedOfflineStorage] addPackForRegion:region withContext:context completionHandler:^(MGLOfflinePack * _Nullable completionHandlerPack, NSError * _Nullable error) {
         XCTAssertNotNil(completionHandlerPack, @"Added pack should exist.");
         XCTAssertEqual(completionHandlerPack.state, MGLOfflinePackStateInactive, @"New pack should initially have inactive state.");
         pack = completionHandlerPack;
@@ -191,9 +191,9 @@
     }];
     [self waitForExpectationsWithTimeout:5 handler:nil];
 
-    XCTAssertEqual([MGLOfflineStorage sharedOfflineStorage].packs.count, countOfPacks + 1, @"Added pack should have been added to the canonical collection of packs owned by the shared offline storage object. This assertion can fail if this test is run before -testAAALoadPacks.");
+    XCTAssertEqual([VMGLOfflineStorage sharedOfflineStorage].packs.count, countOfPacks + 1, @"Added pack should have been added to the canonical collection of packs owned by the shared offline storage object. This assertion can fail if this test is run before -testAAALoadPacks.");
 
-    XCTAssertEqual(pack, [MGLOfflineStorage sharedOfflineStorage].packs.lastObject, @"Pack should be appended to end of packs array.");
+    XCTAssertEqual(pack, [VMGLOfflineStorage sharedOfflineStorage].packs.lastObject, @"Pack should be appended to end of packs array.");
 
     XCTAssertEqualObjects(pack.region, region, @"Added pack’s region has changed.");
 
@@ -233,21 +233,21 @@
 
 - (void)testInvalidatePack {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Expect offline pack to be invalidated without an error."];
-    MGLCoordinateBounds bounds = {
+    VMGLCoordinateBounds bounds = {
         { .latitude = 48.8660, .longitude = 2.3306 },
         { .latitude = 48.8603, .longitude = 2.3213 },
     };
 
     NSURL *styleURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"one-liner" withExtension:@"json"];
-    MGLTilePyramidOfflineRegion *region = [[MGLTilePyramidOfflineRegion alloc] initWithStyleURL:styleURL bounds:bounds fromZoomLevel:10 toZoomLevel:11];
+    VMGLTilePyramidOfflineRegion  *region = [[VMGLTilePyramidOfflineRegion  alloc] initWithStyleURL:styleURL bounds:bounds fromZoomLevel:10 toZoomLevel:11];
 
     NSString *nameKey = @"Name";
     NSString *name = @"Paris square";
 
     NSData *context = [NSKeyedArchiver archivedDataWithRootObject:@{nameKey: name}];
-    [[MGLOfflineStorage sharedOfflineStorage] addPackForRegion:region withContext:context completionHandler:^(MGLOfflinePack * _Nullable pack, NSError * _Nullable error) {
+    [[VMGLOfflineStorage sharedOfflineStorage] addPackForRegion:region withContext:context completionHandler:^(MGLOfflinePack * _Nullable pack, NSError * _Nullable error) {
         XCTAssertNotNil(pack);
-        [[MGLOfflineStorage sharedOfflineStorage] invalidatePack:pack withCompletionHandler:^(NSError * _Nullable) {
+        [[VMGLOfflineStorage sharedOfflineStorage] invalidatePack:pack withCompletionHandler:^(NSError * _Nullable) {
             XCTAssertNotNil(pack);
             XCTAssertNil(error);
             [expectation fulfill];
@@ -257,18 +257,18 @@
 }
 
 - (void)testRemovePack {
-    NSUInteger countOfPacks = [MGLOfflineStorage sharedOfflineStorage].packs.count;
+    NSUInteger countOfPacks = [VMGLOfflineStorage sharedOfflineStorage].packs.count;
 
-    MGLOfflinePack *pack = [MGLOfflineStorage sharedOfflineStorage].packs.lastObject;
+    MGLOfflinePack *pack = [VMGLOfflineStorage sharedOfflineStorage].packs.lastObject;
     XCTAssertNotNil(pack, @"Added pack should still exist.");
 
-    [self keyValueObservingExpectationForObject:[MGLOfflineStorage sharedOfflineStorage] keyPath:@"packs" handler:^BOOL(id _Nonnull observedObject, NSDictionary * _Nonnull change) {
+    [self keyValueObservingExpectationForObject:[VMGLOfflineStorage sharedOfflineStorage] keyPath:@"packs" handler:^BOOL(id _Nonnull observedObject, NSDictionary * _Nonnull change) {
         const auto changeKind = static_cast<NSKeyValueChange>([change[NSKeyValueChangeKindKey] unsignedLongValue]);
         NSIndexSet *indices = change[NSKeyValueChangeIndexesKey];
         return changeKind == NSKeyValueChangeRemoval && indices.count == 1;
     }];
     XCTestExpectation *completionHandlerExpectation = [self expectationWithDescription:@"remove pack completion handler"];
-    [[MGLOfflineStorage sharedOfflineStorage] removePack:pack withCompletionHandler:^(NSError * _Nullable error) {
+    [[VMGLOfflineStorage sharedOfflineStorage] removePack:pack withCompletionHandler:^(NSError * _Nullable error) {
         XCTAssertEqual(pack.state, MGLOfflinePackStateInvalid, @"Removed pack should be invalid in the completion handler.");
         [completionHandlerExpectation fulfill];
     }];
@@ -276,7 +276,7 @@
 
     XCTAssertEqual(pack.state, MGLOfflinePackStateInvalid, @"Removed pack should have been invalidated synchronously.");
 
-    XCTAssertEqual([MGLOfflineStorage sharedOfflineStorage].packs.count, countOfPacks - 1, @"Removed pack should have been removed from the canonical collection of packs owned by the shared offline storage object. This assertion can fail if this test is run before -testAAALoadPacks or -testAddPack.");
+    XCTAssertEqual([VMGLOfflineStorage sharedOfflineStorage].packs.count, countOfPacks - 1, @"Removed pack should have been removed from the canonical collection of packs owned by the shared offline storage object. This assertion can fail if this test is run before -testAAALoadPacks or -testAddPack.");
 }
 
 - (void)testBackupExclusion {
@@ -307,9 +307,9 @@
 
     XCTestExpectation *expectation = [self expectationWithDescription:@"added packs"];
 
-    NSURL *styleURL = [[MGLStyle predefinedStyle:@"Bright"] url];
+    NSURL *styleURL = [[VMGLStyle predefinedStyle:@"Bright"] url];
 
-    MGLCoordinateBounds bounds[] = {
+    VMGLCoordinateBounds bounds[] = {
         {{51.5, -0.2},   {51.6, -0.1}},     // London
         {{60.1, 24.8},   {60.3, 25.1}},     // Helsinki
         {{38.9, -77.1},  {38.9, -77.0}},    // DC
@@ -325,12 +325,12 @@
     for (int i = 0; i < count; i++) {
 
         dispatch_group_enter(group);
-        MGLTilePyramidOfflineRegion *region = [[MGLTilePyramidOfflineRegion alloc] initWithStyleURL:styleURL bounds:bounds[i] fromZoomLevel:20 toZoomLevel:20];
+        VMGLTilePyramidOfflineRegion  *region = [[VMGLTilePyramidOfflineRegion  alloc] initWithStyleURL:styleURL bounds:bounds[i] fromZoomLevel:20 toZoomLevel:20];
         NSData *context = [NSKeyedArchiver archivedDataWithRootObject:@{
             @"index": @(i)
         }];
 
-        [[MGLOfflineStorage sharedOfflineStorage] addPackForRegion:region
+        [[VMGLOfflineStorage sharedOfflineStorage] addPackForRegion:region
                                                        withContext:context
                                                  completionHandler:^(MGLOfflinePack * _Nullable pack, NSError * _Nullable error) {
             XCTAssertNotNil(pack);
@@ -351,12 +351,12 @@
 
     [self addPacks:1];
 
-    NSUInteger countOfPacks = [MGLOfflineStorage sharedOfflineStorage].packs.count;
+    NSUInteger countOfPacks = [VMGLOfflineStorage sharedOfflineStorage].packs.count;
 
-    MGLOfflinePack *pack = [MGLOfflineStorage sharedOfflineStorage].packs.lastObject;
+    MGLOfflinePack *pack = [VMGLOfflineStorage sharedOfflineStorage].packs.lastObject;
     XCTAssertNotNil(pack, @"Added pack should still exist.");
 
-    [self keyValueObservingExpectationForObject:[MGLOfflineStorage sharedOfflineStorage] keyPath:@"packs" handler:^BOOL(id _Nonnull observedObject, NSDictionary * _Nonnull change) {
+    [self keyValueObservingExpectationForObject:[VMGLOfflineStorage sharedOfflineStorage] keyPath:@"packs" handler:^BOOL(id _Nonnull observedObject, NSDictionary * _Nonnull change) {
         const auto changeKind = static_cast<NSKeyValueChange>([change[NSKeyValueChangeKindKey] unsignedLongValue]);
         NSIndexSet *indices = change[NSKeyValueChangeIndexesKey];
         return changeKind == NSKeyValueChangeRemoval && indices.count == 1;
@@ -364,14 +364,14 @@
 
     XCTestExpectation *completionHandlerExpectation = [self expectationWithDescription:@"remove pack completion handler"];
 
-    [[MGLOfflineStorage sharedOfflineStorage] removePack:pack withCompletionHandler:nil];
+    [[VMGLOfflineStorage sharedOfflineStorage] removePack:pack withCompletionHandler:nil];
 
     NSAssertionHandler *oldHandler = [NSAssertionHandler currentHandler];
     MGLTestAssertionHandler *newHandler = [[MGLTestAssertionHandler alloc] initWithTestCase:self];
 
     [[[NSThread currentThread] threadDictionary] setValue:newHandler forKey:NSAssertionHandlerKey];
 
-    [[MGLOfflineStorage sharedOfflineStorage] removePack:pack withCompletionHandler:^(NSError * _Nullable error) {
+    [[VMGLOfflineStorage sharedOfflineStorage] removePack:pack withCompletionHandler:^(NSError * _Nullable error) {
         XCTAssertEqual(pack.state, MGLOfflinePackStateInvalid, @"Removed pack should be invalid in the completion handler.");
         [completionHandlerExpectation fulfill];
     }];
@@ -382,7 +382,7 @@
 
     XCTAssertEqual(pack.state, MGLOfflinePackStateInvalid, @"Removed pack should have been invalidated synchronously.");
 
-    XCTAssertEqual([MGLOfflineStorage sharedOfflineStorage].packs.count, countOfPacks - 1, @"Removed pack should have been removed from the canonical collection of packs owned by the shared offline storage object. This assertion can fail if this test is run before -testAAALoadPacks or -testAddPack.");
+    XCTAssertEqual([VMGLOfflineStorage sharedOfflineStorage].packs.count, countOfPacks - 1, @"Removed pack should have been removed from the canonical collection of packs owned by the shared offline storage object. This assertion can fail if this test is run before -testAAALoadPacks or -testAddPack.");
 
     NSLog(@"Test `%@` complete", NSStringFromSelector(_cmd));
 }
@@ -399,14 +399,14 @@
 
     [self addPacks:4];
 
-    NSInteger countOfPacks = [MGLOfflineStorage sharedOfflineStorage].packs.count;
+    NSInteger countOfPacks = [VMGLOfflineStorage sharedOfflineStorage].packs.count;
     XCTAssert(countOfPacks > 0);
 
     // Now delete packs one by one
     XCTestExpectation *expectation = [self expectationWithDescription:@"All packs removed"];
     expectation.expectedFulfillmentCount = countOfPacks;
 
-    MGLOfflineStorage *storage = [MGLOfflineStorage sharedOfflineStorage];
+    VMGLOfflineStorage *storage = [VMGLOfflineStorage sharedOfflineStorage];
     NSArray *packs = [storage.packs copy];
 
     // Simulate what happens the first time sharedOfflineStorage is accessed
@@ -442,7 +442,7 @@
 
     [self addPacks:4];
 
-    NSInteger countOfPacks = [MGLOfflineStorage sharedOfflineStorage].packs.count;
+    NSInteger countOfPacks = [VMGLOfflineStorage sharedOfflineStorage].packs.count;
     XCTAssert(countOfPacks > 0);
 
     // Now delete packs one by one
@@ -451,7 +451,7 @@
     XCTestExpectation *expectation = [self expectationWithDescription:@"all packs removed"];
     expectation.expectedFulfillmentCount = countOfPacks;
 
-    MGLOfflineStorage *storage = [MGLOfflineStorage sharedOfflineStorage];
+    VMGLOfflineStorage *storage = [VMGLOfflineStorage sharedOfflineStorage];
 
     // Simulate what happens the first time sharedOfflineStorage is accessed
     [storage reloadPacks];
@@ -495,11 +495,11 @@
 }
 
 - (void)testCountOfBytesCompleted {
-    XCTAssertGreaterThan([MGLOfflineStorage sharedOfflineStorage].countOfBytesCompleted, 0UL);
+    XCTAssertGreaterThan([VMGLOfflineStorage sharedOfflineStorage].countOfBytesCompleted, 0UL);
 }
 
 - (void)testResourceTransform {
-    MGLOfflineStorage *os = [MGLOfflineStorage sharedOfflineStorage];
+    VMGLOfflineStorage *os = [VMGLOfflineStorage sharedOfflineStorage];
     [os setDelegate:self];
 
     auto fs = os.mbglOnlineFileSource;
@@ -537,28 +537,28 @@
         // Merging databases creates an empty file if the file does not exist at the given path.
         XCTAssertEqual(fileSize, databaseFileSize, @"The database file size must be:%lld actual size:%lld", databaseFileSize, fileSize);
 
-        NSUInteger countOfPacks = [MGLOfflineStorage sharedOfflineStorage].packs.count;
+        NSUInteger countOfPacks = [VMGLOfflineStorage sharedOfflineStorage].packs.count;
 
-        [self keyValueObservingExpectationForObject:[MGLOfflineStorage sharedOfflineStorage] keyPath:@"packs" handler:^BOOL(id _Nonnull observedObject, NSDictionary * _Nonnull change) {
+        [self keyValueObservingExpectationForObject:[VMGLOfflineStorage sharedOfflineStorage] keyPath:@"packs" handler:^BOOL(id _Nonnull observedObject, NSDictionary * _Nonnull change) {
             const auto changeKind = static_cast<NSKeyValueChange>([change[NSKeyValueChangeKindKey] unsignedLongValue]);
             NSIndexSet *indices = change[NSKeyValueChangeIndexesKey];
             return changeKind == NSKeyValueChangeInsertion && indices.count == 1;
         }];
 
         XCTestExpectation *fileAdditionCompletionHandlerExpectation = [self expectationWithDescription:@"add database content completion handler"];
-        MGLOfflineStorage *os = [MGLOfflineStorage sharedOfflineStorage];
+        VMGLOfflineStorage *os = [VMGLOfflineStorage sharedOfflineStorage];
         [os addContentsOfURL:resourceURL withCompletionHandler:^(NSURL *fileURL, NSArray<MGLOfflinePack *> * _Nullable packs, NSError * _Nullable error) {
             XCTAssertNotNil(fileURL, @"The fileURL should not be nil.");
             XCTAssertNotNil(packs, @"Adding the contents of the sideload_sat.db should update one pack.");
             XCTAssertNil(error, @"Adding contents to a file should not return an error.");
-            for (MGLOfflinePack *pack in [MGLOfflineStorage sharedOfflineStorage].packs) {
+            for (MGLOfflinePack *pack in [VMGLOfflineStorage sharedOfflineStorage].packs) {
                 NSLog(@"PACK:%@", pack);
             }
             [fileAdditionCompletionHandlerExpectation fulfill];
         }];
         [self waitForExpectationsWithTimeout:10 handler:nil];
         // Depending on the database it may update or add a pack. For this case specifically the offline database adds one pack.
-        XCTAssertEqual([MGLOfflineStorage sharedOfflineStorage].packs.count, countOfPacks + 1, @"Adding contents of sideload_sat.db should add one pack.");
+        XCTAssertEqual([VMGLOfflineStorage sharedOfflineStorage].packs.count, countOfPacks + 1, @"Adding contents of sideload_sat.db should add one pack.");
     }];
 
     // Invalid database type
@@ -566,7 +566,7 @@
         NSURL *resourceURL = [NSURL fileURLWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"one-liner" ofType:@"json"]];
 
         XCTestExpectation *invalidFileCompletionHandlerExpectation = [self expectationWithDescription:@"invalid content database completion handler"];
-        MGLOfflineStorage *os = [MGLOfflineStorage sharedOfflineStorage];
+        VMGLOfflineStorage *os = [VMGLOfflineStorage sharedOfflineStorage];
         [os addContentsOfFile:resourceURL.path withCompletionHandler:^(NSURL *fileURL, NSArray<MGLOfflinePack *> * _Nullable packs, NSError * _Nullable error) {
             XCTAssertNotNil(error, @"Passing an invalid offline database file should return an error.");
             XCTAssertNil(packs, @"Passing an invalid offline database file should not add packs to the offline database.");
@@ -579,7 +579,7 @@
     [XCTContext runActivityNamed:@"File does not exist" block:^(id<XCTActivity> activity) {
         NSURL *resourceURL = [NSURL URLWithString:@"nonexistent.db"];
 
-        MGLOfflineStorage *os = [MGLOfflineStorage sharedOfflineStorage];
+        VMGLOfflineStorage *os = [VMGLOfflineStorage sharedOfflineStorage];
         XCTAssertThrowsSpecificNamed([os addContentsOfURL:resourceURL withCompletionHandler:nil], NSException, NSInvalidArgumentException, "MGLOfflineStorage should rise an exception if an invalid database file is passed.");
     }];
 
@@ -587,7 +587,7 @@
     [XCTContext runActivityNamed:@"URL to a non-file" block:^(id<XCTActivity> activity) {
         NSURL *resourceURL = [NSURL URLWithString:@"https://www.mapbox.com"];
 
-        MGLOfflineStorage *os = [MGLOfflineStorage sharedOfflineStorage];
+        VMGLOfflineStorage *os = [VMGLOfflineStorage sharedOfflineStorage];
         XCTAssertThrowsSpecificNamed([os addContentsOfURL:resourceURL withCompletionHandler:nil], NSException, NSInvalidArgumentException, "MGLOfflineStorage should rise an exception if an invalid URL file is passed.");
     }];
 }
@@ -595,7 +595,7 @@
 - (void)testPutResourceForURL {
     NSURL *styleURL = [NSURL URLWithString:@"https://api.mapbox.com/some/thing"];
 
-    MGLOfflineStorage *os = [MGLOfflineStorage sharedOfflineStorage];
+    VMGLOfflineStorage *os = [VMGLOfflineStorage sharedOfflineStorage];
     std::string testData("test data");
     NSData *data = [NSData dataWithBytes:testData.c_str() length:testData.length()];
     __block std::unique_ptr<mbgl::AsyncRequest> req;
@@ -623,7 +623,7 @@
 - (void)testPutResourceForURLWithTimestamps {
     NSURL *styleURL = [NSURL URLWithString:@"https://api.mapbox.com/some/thing1"];
 
-    MGLOfflineStorage *os = [MGLOfflineStorage sharedOfflineStorage];
+    VMGLOfflineStorage *os = [VMGLOfflineStorage sharedOfflineStorage];
     std::string testData("test data");
     NSData *data = [NSData dataWithBytes:testData.c_str() length:testData.length()];
     __block NSDate *now = [NSDate date];
@@ -655,9 +655,9 @@
 
 - (void)testSetMaximumAmbientCache {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Expect maximum cache size to be raised without an error."];
-    [[MGLOfflineStorage sharedOfflineStorage] setMaximumAmbientCacheSize:0 withCompletionHandler:^(NSError * _Nullable error) {
+    [[VMGLOfflineStorage sharedOfflineStorage] setMaximumAmbientCacheSize:0 withCompletionHandler:^(NSError * _Nullable error) {
         XCTAssertNil(error);
-        [[MGLOfflineStorage sharedOfflineStorage] setMaximumAmbientCacheSize:50*1024*1024 withCompletionHandler:^(NSError * _Nullable error) {
+        [[VMGLOfflineStorage sharedOfflineStorage] setMaximumAmbientCacheSize:50*1024*1024 withCompletionHandler:^(NSError * _Nullable error) {
             XCTAssertNil(error);
             [expectation fulfill];
         }];
@@ -668,7 +668,7 @@
 
 - (void)testInvalidateAmbientCache {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Expect cache to be invalidated without an error."];
-    [[MGLOfflineStorage sharedOfflineStorage] invalidateAmbientCacheWithCompletionHandler:^(NSError * _Nullable error) {
+    [[VMGLOfflineStorage sharedOfflineStorage] invalidateAmbientCacheWithCompletionHandler:^(NSError * _Nullable error) {
         XCTAssertNil(error);
         [expectation fulfill];
     }];
@@ -677,7 +677,7 @@
 
 - (void)testClearCache {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Expect cache to be cleared without an error."];
-    [[MGLOfflineStorage sharedOfflineStorage] clearAmbientCacheWithCompletionHandler:^(NSError * _Nullable error) {
+    [[VMGLOfflineStorage sharedOfflineStorage] clearAmbientCacheWithCompletionHandler:^(NSError * _Nullable error) {
         XCTAssertNil(error);
         [expectation fulfill];
     }];
@@ -686,7 +686,7 @@
 
 - (void)testResetDatabase {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Expect database to be reset without an error."];
-    [[MGLOfflineStorage sharedOfflineStorage] resetDatabaseWithCompletionHandler:^(NSError * _Nullable error) {
+    [[VMGLOfflineStorage sharedOfflineStorage] resetDatabaseWithCompletionHandler:^(NSError * _Nullable error) {
         XCTAssertNil(error);
         [expectation fulfill];
     }];

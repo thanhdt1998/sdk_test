@@ -2,7 +2,7 @@
 
 #import "NSDictionary+MGLAdditions.h"
 #import "NSExpression+MGLPrivateAdditions.h"
-#import "MGLLoggingConfiguration_Private.h"
+#import "VMGLLoggingConfiguration_Private.h"
 
 @implementation NSArray (MGLAdditions)
 

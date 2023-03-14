@@ -14,7 +14,7 @@ DebugBucket::DebugBucket(const OverscaledTileID& id,
                          const bool complete_,
                          optional<Timestamp> modified_,
                          optional<Timestamp> expires_,
-                         MapDebugOptions debugMode_)
+                         VMGLDebugOptions debugMode_)
     : renderable(renderable_),
       complete(complete_),
       modified(std::move(modified_)),
@@ -53,14 +53,14 @@ DebugBucket::DebugBucket(const OverscaledTileID& id,
     };
 
     double baseline = 200;
-    if (debugMode & MapDebugOptions::ParseStatus) {
+    if (debugMode & VMGLDebugOptions::ParseStatus) {
         const std::string text = util::toString(id) + " - " +
                                  (complete ? "complete" : renderable ? "renderable" : "pending");
         addText(text, 50, baseline, 5);
         baseline += 200;
     }
 
-    if (debugMode & MapDebugOptions::Timestamps && modified && expires) {
+    if (debugMode & VMGLDebugOptions::Timestamps && modified && expires) {
         const std::string modifiedText = "modified: " + util::iso8601(*modified);
         addText(modifiedText, 50, baseline, 5);
 

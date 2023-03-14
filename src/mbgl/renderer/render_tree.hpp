@@ -32,7 +32,7 @@ class RenderTreeParameters {
 public:
     explicit RenderTreeParameters(const TransformState& state_,
                                   MapMode mapMode_,
-                                  MapDebugOptions debugOptions_,
+                                  VMGLDebugOptions debugOptions_,
                                   TimePoint timePoint_,
                                   EvaluatedLight light_)
         : transformParams(state_),
@@ -42,7 +42,7 @@ public:
           light(std::move(light_)) {}
     TransformParameters transformParams;
     MapMode mapMode;
-    MapDebugOptions debugOptions;
+    VMGLDebugOptions debugOptions;
     TimePoint timePoint;
     EvaluatedLight light;
     bool has3D = false;

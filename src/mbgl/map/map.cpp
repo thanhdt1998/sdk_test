@@ -69,7 +69,7 @@ void Map::renderStill(StillImageCallback callback) {
     impl->onUpdate();
 }
 
-void Map::renderStill(const CameraOptions& camera, MapDebugOptions debugOptions, StillImageCallback callback) {
+void Map::renderStill(const CameraOptions& camera, VMGLDebugOptions debugOptions, StillImageCallback callback) {
     impl->cameraMutated = true;
     impl->debugOptions = debugOptions;
     impl->transform.jumpTo(camera);
@@ -480,12 +480,12 @@ void Map::removeAnnotation(AnnotationID annotation) {
 
 #pragma mark - Toggles
 
-void Map::setDebug(MapDebugOptions debugOptions) {
+void Map::setDebug(VMGLDebugOptions debugOptions) {
     impl->debugOptions = debugOptions;
     impl->onUpdate();
 }
 
-MapDebugOptions Map::getDebug() const {
+VMGLDebugOptions Map::getDebug() const {
     return impl->debugOptions;
 }
 

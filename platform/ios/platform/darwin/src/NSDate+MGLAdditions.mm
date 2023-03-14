@@ -1,6 +1,6 @@
 #import "NSDate+MGLAdditions.h"
 
-mbgl::Duration MGLDurationFromTimeInterval(NSTimeInterval duration)
+mbgl::Duration VMGLDurationFromTimeInterval(NSTimeInterval duration)
 {
     return std::chrono::duration_cast<mbgl::Duration>(std::chrono::duration<NSTimeInterval>(duration));
 }

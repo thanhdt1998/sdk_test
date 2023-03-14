@@ -1,6 +1,6 @@
 #import "NSComparisonPredicate+MGLAdditions.h"
 
-#import "MGLStyleValue_Private.h"
+#import "VMGLStyleValue_Private.h"
 
 #import "NSPredicate+MGLAdditions.h"
 #import "NSExpression+MGLPrivateAdditions.h"

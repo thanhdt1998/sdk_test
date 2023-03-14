@@ -67,7 +67,7 @@ public:
 
     TileParameters tileParameters(MapMode mapMode = MapMode::Continuous) {
         return {1.0,
-                MapDebugOptions(),
+                VMGLDebugOptions(),
                 transformState,
                 fileSource,
                 mapMode,

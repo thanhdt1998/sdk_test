@@ -39,7 +39,7 @@ class UploadPass;
 class SourcePrepareParameters {
 public:
     const TransformParameters& transform;
-    const MapDebugOptions& debugOptions;
+    const VMGLDebugOptions& debugOptions;
     const ImageManager& imageManager;
 };
 

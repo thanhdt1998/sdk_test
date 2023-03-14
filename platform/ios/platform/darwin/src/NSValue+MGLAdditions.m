@@ -34,12 +34,12 @@
     return span;
 }
 
-+ (instancetype)valueWithMGLCoordinateBounds:(MGLCoordinateBounds)bounds {
-    return [self valueWithBytes:&bounds objCType:@encode(MGLCoordinateBounds)];
++ (instancetype)valueWithMGLCoordinateBounds:(VMGLCoordinateBounds)bounds {
+    return [self valueWithBytes:&bounds objCType:@encode(VMGLCoordinateBounds)];
 }
 
-- (MGLCoordinateBounds)MGLCoordinateBoundsValue {
-    MGLCoordinateBounds bounds;
+- (VMGLCoordinateBounds)MGLCoordinateBoundsValue {
+    VMGLCoordinateBounds bounds;
     [self getValue:&bounds];
     return bounds;
 }

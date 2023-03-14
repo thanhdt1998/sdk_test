@@ -5,7 +5,7 @@
 
 #include <mbgl/style/layers/heatmap_layer.hpp>
 
-@interface MGLHeatmapColorTests : XCTestCase <MGLMapViewDelegate>
+@interface MGLHeatmapColorTests : XCTestCase <VMGLMapViewDelegate>
 @end
 
 @implementation MGLHeatmapColorTests

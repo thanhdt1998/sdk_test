@@ -4,14 +4,14 @@
 
 #import <mbgl/math/wrap.hpp>
 
-@interface MGLMapView (MGLMapViewDirectionTests)
+@interface VMGLMapView (MGLMapViewDirectionTests)
 - (void)handleRotateGesture:(UIRotationGestureRecognizer *)rotate;
 - (void)resetNorthAnimated:(BOOL)animated;
 @end
 
 
 @interface MGLMapViewDirectionTests : XCTestCase
-@property (nonatomic) MGLMapView *mapView;
+@property (nonatomic) VMGLMapView *mapView;
 @end
 
 @implementation MGLMapViewDirectionTests
@@ -19,14 +19,14 @@
 - (void)setUp {
     [super setUp];
 
-    [MGLSettings setApiKey:@"pk.feedcafedeadbeefbadebede"];
+    [VMGLSettings setApiKey:@"pk.feedcafedeadbeefbadebede"];
     NSURL *styleURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"one-liner" withExtension:@"json"];
-    self.mapView = [[MGLMapView alloc] initWithFrame:CGRectMake(0, 0, 64, 64) styleURL:styleURL];
+    self.mapView = [[VMGLMapView alloc] initWithFrame:CGRectMake(0, 0, 64, 64) styleURL:styleURL];
 }
 
 - (void)tearDown {
     self.mapView = nil;
-    [MGLSettings setApiKey:nil];
+    [VMGLSettings setApiKey:nil];
     [super tearDown];
 }
 
@@ -59,8 +59,8 @@
 
     UIRotationGestureRecognizerMock *gesture = [[UIRotationGestureRecognizerMock alloc] initWithTarget:nil action:nil];
     gesture.state = UIGestureRecognizerStateBegan;
-    gesture.rotation = MGLRadiansFromDegrees(30);
-    CGFloat wrappedRotation = mbgl::util::wrap(-MGLDegreesFromRadians(gesture.rotation), 0., 360.);
+    gesture.rotation = VMGLRadiansFromDegrees(30);
+    CGFloat wrappedRotation = mbgl::util::wrap(-VMGLDegreesFromRadians(gesture.rotation), 0., 360.);
 
     // Disabled
     {
@@ -81,7 +81,7 @@
         XCTAssertEqual(self.mapView.allowsRotating, YES);
 
         gesture.state = UIGestureRecognizerStateChanged;
-        gesture.rotation = MGLRadiansFromDegrees(30);
+        gesture.rotation = VMGLRadiansFromDegrees(30);
         [self.mapView handleRotateGesture:gesture];
         XCTAssertEqualWithAccuracy(self.mapView.direction, wrappedRotation, 0.001, @"Gestural rotation should work when rotation is enabled.");
     }
@@ -100,9 +100,9 @@
 
     for (NSNumber *degrees in @[@-999, @-360, @-240, @-180, @-90, @-45, @0, @45, @90, @180, @240, @359, @999]) {
         gesture.state = UIGestureRecognizerStateChanged;
-        gesture.rotation = MGLRadiansFromDegrees([degrees doubleValue]);
+        gesture.rotation = VMGLRadiansFromDegrees([degrees doubleValue]);
         [self.mapView handleRotateGesture:gesture];
-        CGFloat wrappedRotation = mbgl::util::wrap(-MGLDegreesFromRadians(gesture.rotation), 0., 360.);
+        CGFloat wrappedRotation = mbgl::util::wrap(-VMGLDegreesFromRadians(gesture.rotation), 0., 360.);
         XCTAssertEqualWithAccuracy(self.mapView.direction, wrappedRotation, 0.001, @"Map direction should match gesture rotation for input of %@°.", degrees);
 
         // Given a hypothetical rotation around the exact center of the map, the center coordinate should remain the same.
@@ -114,13 +114,13 @@
 
 - (void)testResetPosition {
     [self.mapView resetPosition];
-    MGLMapCamera *defaultCamera = [MGLMapCamera cameraLookingAtCenterCoordinate:CLLocationCoordinate2DMake(0, 0) altitude:self.mapView.camera.altitude pitch:0 heading:0];
+    VMGLMapCamera *defaultCamera = [VMGLMapCamera cameraLookingAtCenterCoordinate:CLLocationCoordinate2DMake(0, 0) altitude:self.mapView.camera.altitude pitch:0 heading:0];
     XCTAssertTrue([self.mapView.camera isEqualToMapCamera:defaultCamera], @"Map camera %@ should be equal to default camera %@.", self.mapView.camera, defaultCamera);
 }
 
 - (CGFloat)degreesFromAffineTransform:(CGAffineTransform)transform {
     CGFloat angle = atan2f(transform.b, transform.a);
-    return MGLDegreesFromRadians(angle);
+    return VMGLDegreesFromRadians(angle);
 }
 
 @end

@@ -18,14 +18,14 @@
 }
 
 - (void)testPointAnnotation {
-    MGLPointAnnotation *annotation = [[MGLPointAnnotation alloc] init];
+    VMPointAnnotation *annotation = [[VMPointAnnotation alloc] init];
     annotation.coordinate = CLLocationCoordinate2DMake(0.5, 0.5);
     annotation.title = @"title";
     annotation.subtitle = @"subtitle";
 
-    NSString *filePath = [self temporaryFilePathForClass:MGLPointAnnotation.class];
+    NSString *filePath = [self temporaryFilePathForClass:VMPointAnnotation.class];
     [NSKeyedArchiver archiveRootObject:annotation toFile:filePath];
-    MGLPointAnnotation *unarchivedAnnotation = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    VMPointAnnotation *unarchivedAnnotation = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
 
     XCTAssertEqualObjects(annotation, unarchivedAnnotation);
 }
@@ -82,13 +82,13 @@
 
     NSUInteger numberOfCoordinates = sizeof(coordinates) / sizeof(CLLocationCoordinate2D);
 
-    MGLPolyline *polyline = [MGLPolyline polylineWithCoordinates:coordinates count:numberOfCoordinates];
+    VMGLPolyline *polyline = [VMGLPolyline polylineWithCoordinates:coordinates count:numberOfCoordinates];
     polyline.title = @"title";
     polyline.subtitle = @"subtitle";
 
-    NSString *filePath = [self temporaryFilePathForClass:[MGLPolyline class]];
+    NSString *filePath = [self temporaryFilePathForClass:[VMGLPolyline class]];
     [NSKeyedArchiver archiveRootObject:polyline toFile:filePath];
-    MGLPolyline *unarchivedPolyline = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    VMGLPolyline *unarchivedPolyline = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
 
     XCTAssertEqualObjects(polyline, unarchivedPolyline);
 
@@ -107,7 +107,7 @@
     };
     
     NSUInteger multiLineCoordinatesCount = sizeof(multiLineCoordinates) / sizeof(CLLocationCoordinate2D);
-    MGLPolyline *multiLine = [MGLPolyline polylineWithCoordinates:multiLineCoordinates count:multiLineCoordinatesCount];
+    VMGLPolyline *multiLine = [VMGLPolyline polylineWithCoordinates:multiLineCoordinates count:multiLineCoordinatesCount];
     CLLocationCoordinate2D multiLineCenter = CLLocationCoordinate2DMake(51.000000, 1.000000);
     
     XCTAssertEqual([multiLine coordinate].latitude, multiLineCenter.latitude);
@@ -119,7 +119,7 @@
     };
     
     NSUInteger segmentCoordinatesCount = sizeof(segmentCoordinates) / sizeof(CLLocationCoordinate2D);
-    MGLPolyline *segmentLine = [MGLPolyline polylineWithCoordinates:segmentCoordinates count:segmentCoordinatesCount];
+    VMGLPolyline *segmentLine = [VMGLPolyline polylineWithCoordinates:segmentCoordinates count:segmentCoordinatesCount];
     CLLocationCoordinate2D segmentCenter = CLLocationCoordinate2DMake(35.0404006631, -85.2604935);
     
     XCTAssertEqualWithAccuracy([segmentLine coordinate].latitude, segmentCenter.latitude, 0.0001);
@@ -133,7 +133,7 @@
     };
     
     NSUInteger sfToBerkeleyCoordinatesCount = sizeof(sfToBerkeleyCoordinates) / sizeof(CLLocationCoordinate2D);
-    MGLPolyline *sfToBerkeleyLine = [MGLPolyline polylineWithCoordinates:sfToBerkeleyCoordinates count:sfToBerkeleyCoordinatesCount];
+    VMGLPolyline *sfToBerkeleyLine = [VMGLPolyline polylineWithCoordinates:sfToBerkeleyCoordinates count:sfToBerkeleyCoordinatesCount];
     CLLocationCoordinate2D sfToBerkeleyCenter = CLLocationCoordinate2DMake(37.8230575118,-122.324867587);
     
     XCTAssertEqualWithAccuracy([sfToBerkeleyLine coordinate].latitude, sfToBerkeleyCenter.latitude, 0.0001);
@@ -151,14 +151,14 @@
 
     NSUInteger numberOfCoordinates = sizeof(coordinates) / sizeof(CLLocationCoordinate2D);
 
-    MGLPolygon *polygon = [MGLPolygon polygonWithCoordinates:coordinates count:numberOfCoordinates];
+    VMGLPolygon *polygon = [VMGLPolygon polygonWithCoordinates:coordinates count:numberOfCoordinates];
     polygon.title = nil;
     polygon.subtitle = @"subtitle";
 
-    NSString *filePath = [self temporaryFilePathForClass:[MGLPolygon class]];
+    NSString *filePath = [self temporaryFilePathForClass:[VMGLPolygon class]];
     [NSKeyedArchiver archiveRootObject:polygon toFile:filePath];
 
-    MGLPolygon *unarchivedPolygon = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    VMGLPolygon *unarchivedPolygon = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
     [unarchivedPolygon coordinate];
 
     XCTAssertEqualObjects(polygon, unarchivedPolygon);
@@ -171,7 +171,7 @@
     };
     
     NSUInteger squareCoordinatesCount = sizeof(squareCoordinates) / sizeof(CLLocationCoordinate2D);
-    MGLPolygon *squarePolygon = [MGLPolygon polygonWithCoordinates:squareCoordinates count:squareCoordinatesCount];
+    VMGLPolygon *squarePolygon = [VMGLPolygon polygonWithCoordinates:squareCoordinates count:squareCoordinatesCount];
     CLLocationCoordinate2D squareCenter = CLLocationCoordinate2DMake(100.5, 0.5);
     
     XCTAssertEqual([squarePolygon coordinate].latitude, squareCenter.latitude);
@@ -194,13 +194,13 @@
 
     NSUInteger numberOfInteriorCoordinates = sizeof(interiorCoordinates) / sizeof(CLLocationCoordinate2D);
 
-    MGLPolygon *interiorPolygon = [MGLPolygon polygonWithCoordinates:interiorCoordinates count:numberOfInteriorCoordinates];
-    MGLPolygon *polygon = [MGLPolygon polygonWithCoordinates:coordinates count:numberOfCoordinates interiorPolygons:@[interiorPolygon]];
+    VMGLPolygon *interiorPolygon = [VMGLPolygon polygonWithCoordinates:interiorCoordinates count:numberOfInteriorCoordinates];
+    VMGLPolygon *polygon = [VMGLPolygon polygonWithCoordinates:coordinates count:numberOfCoordinates interiorPolygons:@[interiorPolygon]];
 
-    NSString *filePath = [self temporaryFilePathForClass:[MGLPolygon class]];
+    NSString *filePath = [self temporaryFilePathForClass:[VMGLPolygon class]];
     [NSKeyedArchiver archiveRootObject:polygon toFile:filePath];
 
-    MGLPolygon *unarchivedPolygon = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    VMGLPolygon *unarchivedPolygon = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
 
     XCTAssertEqualObjects(polygon, unarchivedPolygon);
 }
@@ -212,14 +212,14 @@
     };
 
     NSUInteger numberOfCoordinates = sizeof(coordinates) / sizeof(CLLocationCoordinate2D);
-    MGLPolylineFeature *polylineFeature = [MGLPolylineFeature polylineWithCoordinates:coordinates count:numberOfCoordinates];
+    VMGLPolylineFeature *polylineFeature = [VMGLPolylineFeature polylineWithCoordinates:coordinates count:numberOfCoordinates];
     polylineFeature.attributes = @{@"bbox": @[@0, @1, @2, @3]};
     polylineFeature.identifier = @"identifier";
 
-    NSString *filePath = [self temporaryFilePathForClass:[MGLPolylineFeature class]];
+    NSString *filePath = [self temporaryFilePathForClass:[VMGLPolylineFeature class]];
     [NSKeyedArchiver archiveRootObject:polylineFeature toFile:filePath];
 
-    MGLPolylineFeature *unarchivedPolylineFeature = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    VMGLPolylineFeature *unarchivedPolylineFeature = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
 
     XCTAssertEqualObjects(polylineFeature, unarchivedPolylineFeature);
 
@@ -259,16 +259,16 @@
 
     NSUInteger numberOfCoordinates = sizeof(coordinates) / sizeof(CLLocationCoordinate2D);
 
-    MGLPointCollection *pointCollection = [MGLPointCollection pointCollectionWithCoordinates:coordinates count:numberOfCoordinates];
+    VMGLPointCollection *pointCollection = [VMGLPointCollection pointCollectionWithCoordinates:coordinates count:numberOfCoordinates];
     CLLocationCoordinate2D pointsCenter = CLLocationCoordinate2DMake(0, 1);
     
     XCTAssertEqual([pointCollection coordinate].latitude, pointsCenter.latitude);
     XCTAssertEqual([pointCollection coordinate].longitude, pointsCenter.longitude);
     
-    NSString *filePath = [self temporaryFilePathForClass:[MGLPointCollection class]];
+    NSString *filePath = [self temporaryFilePathForClass:[VMGLPointCollection class]];
     [NSKeyedArchiver archiveRootObject:pointCollection toFile:filePath];
 
-    MGLPointCollection *unarchivedPointCollection = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    VMGLPointCollection *unarchivedPointCollection = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
 
     XCTAssertEqualObjects(pointCollection, unarchivedPointCollection);
 }
@@ -330,10 +330,10 @@
     NSUInteger road1CoordinatesCount = sizeof(line1) / sizeof(CLLocationCoordinate2D);
     NSUInteger road2CoordinatesCount = sizeof(line2) / sizeof(CLLocationCoordinate2D);
     
-    MGLPolyline *road1Polyline = [MGLPolyline polylineWithCoordinates:line1 count:road1CoordinatesCount];
-    MGLPolyline *road2Polyline = [MGLPolyline polylineWithCoordinates:line1 count:road2CoordinatesCount];
+    VMGLPolyline *road1Polyline = [VMGLPolyline polylineWithCoordinates:line1 count:road1CoordinatesCount];
+    VMGLPolyline *road2Polyline = [VMGLPolyline polylineWithCoordinates:line1 count:road2CoordinatesCount];
     
-    MGLMultiPolyline *roads = [MGLMultiPolyline multiPolylineWithPolylines:@[road1Polyline, road2Polyline]];
+    VMGLMultiPolyline *roads = [VMGLMultiPolyline multiPolylineWithPolylines:@[road1Polyline, road2Polyline]];
     CLLocationCoordinate2D roadCenter = CLLocationCoordinate2DMake(100, 40);
     
     XCTAssertEqual([roads coordinate].latitude, roadCenter.latitude);
@@ -344,17 +344,17 @@
     NSMutableArray *polylines = [NSMutableArray array];
 
     for (NSUInteger i = 0; i < 100; i++) {
-        MGLPolyline *polyline = [MGLPolyline polylineWithCoordinates:coordinates count:numberOfCoordinates];
+        VMGLPolyline *polyline = [VMGLPolyline polylineWithCoordinates:coordinates count:numberOfCoordinates];
         [polylines addObject:polyline];
     }
 
-    MGLMultiPolyline *multiPolyline = [MGLMultiPolyline multiPolylineWithPolylines:polylines];
+    VMGLMultiPolyline *multiPolyline = [VMGLMultiPolyline multiPolylineWithPolylines:polylines];
 
-    NSString *filePath = [self temporaryFilePathForClass:[MGLMultiPolyline class]];
+    NSString *filePath = [self temporaryFilePathForClass:[VMGLMultiPolyline class]];
     [NSKeyedArchiver archiveRootObject:multiPolyline toFile:filePath];
 
-    MGLMultiPolyline *unarchivedMultiPolyline = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
-    MGLMultiPolyline *anotherMultipolyline = [MGLMultiPolyline multiPolylineWithPolylines:[polylines subarrayWithRange:NSMakeRange(0, polylines.count/2)]];
+    VMGLMultiPolyline *unarchivedMultiPolyline = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    VMGLMultiPolyline *anotherMultipolyline = [VMGLMultiPolyline multiPolylineWithPolylines:[polylines subarrayWithRange:NSMakeRange(0, polylines.count/2)]];
 
     XCTAssertEqualObjects(multiPolyline, unarchivedMultiPolyline);
     XCTAssertNotEqualObjects(unarchivedMultiPolyline, anotherMultipolyline);
@@ -386,9 +386,9 @@
     NSUInteger outerCoordinatesCount = sizeof(outerSquare) / sizeof(CLLocationCoordinate2D);
     NSUInteger innerCoordinatesCount = sizeof(innerSquare) / sizeof(CLLocationCoordinate2D);
     
-    MGLPolygon *innerPolygonSquare = [MGLPolygon polygonWithCoordinates:innerSquare count:innerCoordinatesCount];
-    MGLPolygon *outerPolygonSquare = [MGLPolygon polygonWithCoordinates:outerSquare count:outerCoordinatesCount interiorPolygons:@[innerPolygonSquare]];
-    MGLMultiPolygon *squares = [MGLMultiPolygon multiPolygonWithPolygons:@[outerPolygonSquare, innerPolygonSquare]];
+    VMGLPolygon *innerPolygonSquare = [VMGLPolygon polygonWithCoordinates:innerSquare count:innerCoordinatesCount];
+    VMGLPolygon *outerPolygonSquare = [VMGLPolygon polygonWithCoordinates:outerSquare count:outerCoordinatesCount interiorPolygons:@[innerPolygonSquare]];
+    VMGLMultiPolygon *squares = [VMGLMultiPolygon multiPolygonWithPolygons:@[outerPolygonSquare, innerPolygonSquare]];
     CLLocationCoordinate2D squareCenter = CLLocationCoordinate2DMake(100.5, 0.5);
     
     XCTAssertEqual([squares coordinate].latitude, squareCenter.latitude);
@@ -399,17 +399,17 @@
     NSMutableArray *polygons = [NSMutableArray array];
 
     for (NSUInteger i = 0; i < 100; i++) {
-        MGLPolygon *polygon = [MGLPolygon polygonWithCoordinates:coordinates count:numberOfCoordinates];
+        VMGLPolygon *polygon = [VMGLPolygon polygonWithCoordinates:coordinates count:numberOfCoordinates];
         [polygons addObject:polygon];
     }
 
-    MGLMultiPolygon *multiPolygon = [MGLMultiPolygon multiPolygonWithPolygons:polygons];
+    VMGLMultiPolygon *multiPolygon = [VMGLMultiPolygon multiPolygonWithPolygons:polygons];
 
-    NSString *filePath = [self temporaryFilePathForClass:[MGLMultiPolygon class]];
+    NSString *filePath = [self temporaryFilePathForClass:[VMGLMultiPolygon class]];
     [NSKeyedArchiver archiveRootObject:multiPolygon toFile:filePath];
 
-    MGLMultiPolygon *unarchivedMultiPolygon = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
-    MGLMultiPolygon *anotherMultiPolygon = [MGLMultiPolygon multiPolygonWithPolygons:[polygons subarrayWithRange:NSMakeRange(0, polygons.count/2)]];
+    VMGLMultiPolygon *unarchivedMultiPolygon = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    VMGLMultiPolygon *anotherMultiPolygon = [VMGLMultiPolygon multiPolygonWithPolygons:[polygons subarrayWithRange:NSMakeRange(0, polygons.count/2)]];
     
     XCTAssertEqualObjects(multiPolygon, unarchivedMultiPolygon);
     XCTAssertNotEqualObjects(anotherMultiPolygon, unarchivedMultiPolygon);
@@ -425,16 +425,16 @@
 
     NSUInteger numberOfCoordinates = sizeof(coordinates) / sizeof(CLLocationCoordinate2D);
 
-    MGLPolyline *polyline = [MGLPolyline polylineWithCoordinates:coordinates count:numberOfCoordinates];
-    MGLPolygon *polygon = [MGLPolygon polygonWithCoordinates:coordinates count:numberOfCoordinates];
+    VMGLPolyline *polyline = [VMGLPolyline polylineWithCoordinates:coordinates count:numberOfCoordinates];
+    VMGLPolygon *polygon = [VMGLPolygon polygonWithCoordinates:coordinates count:numberOfCoordinates];
 
-    MGLShapeCollection *shapeCollection = [MGLShapeCollection shapeCollectionWithShapes:@[polyline, polygon]];
+    VMGLShapeCollection *shapeCollection = [VMGLShapeCollection shapeCollectionWithShapes:@[polyline, polygon]];
 
-    NSString *filePath = [self temporaryFilePathForClass:[MGLShapeCollection class]];
+    NSString *filePath = [self temporaryFilePathForClass:[VMGLShapeCollection class]];
     [NSKeyedArchiver archiveRootObject:shapeCollection toFile:filePath];
 
-    MGLShapeCollection *unarchivedShapeCollection = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
-    MGLShapeCollection *anotherShapeCollection = [MGLShapeCollection shapeCollectionWithShapes:@[polygon]];
+    VMGLShapeCollection *unarchivedShapeCollection = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    VMGLShapeCollection *anotherShapeCollection = [VMGLShapeCollection shapeCollectionWithShapes:@[polygon]];
 
     XCTAssertEqualObjects(shapeCollection, unarchivedShapeCollection);
     XCTAssertNotEqualObjects(shapeCollection, anotherShapeCollection);
@@ -451,19 +451,19 @@
 
     NSMutableArray *polylines = [NSMutableArray array];
     for (NSUInteger i = 0; i < 100; i++) {
-        MGLPolylineFeature *polylineFeature = [MGLPolylineFeature polylineWithCoordinates:coordinates count:numberOfCoordinates];
+        VMGLPolylineFeature *polylineFeature = [VMGLPolylineFeature polylineWithCoordinates:coordinates count:numberOfCoordinates];
         polylineFeature.identifier = @(arc4random() % 100).stringValue;
         [polylines addObject:polylineFeature];
     }
 
-    MGLMultiPolylineFeature *multiPolylineFeature = [MGLMultiPolylineFeature multiPolylineWithPolylines:polylines];
+    VMGLMultiPolylineFeature *multiPolylineFeature = [VMGLMultiPolylineFeature multiPolylineWithPolylines:polylines];
     multiPolylineFeature.attributes = @{@"bbox": @[@4, @3, @2, @1]};
 
-    NSString *filePath = [self temporaryFilePathForClass:[MGLMultiPolylineFeature class]];
+    NSString *filePath = [self temporaryFilePathForClass:[VMGLMultiPolylineFeature class]];
     [NSKeyedArchiver archiveRootObject:multiPolylineFeature toFile:filePath];
 
-    MGLMultiPolylineFeature *unarchivedMultiPolylineFeature = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
-    MGLMultiPolylineFeature *anotherMultiPolylineFeature = [MGLMultiPolylineFeature multiPolylineWithPolylines:[polylines subarrayWithRange:NSMakeRange(0, polylines.count/2)]];
+    VMGLMultiPolylineFeature *unarchivedMultiPolylineFeature = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    VMGLMultiPolylineFeature *anotherMultiPolylineFeature = [VMGLMultiPolylineFeature multiPolylineWithPolylines:[polylines subarrayWithRange:NSMakeRange(0, polylines.count/2)]];
 
     XCTAssertEqualObjects(multiPolylineFeature, unarchivedMultiPolylineFeature);
     XCTAssertNotEqualObjects(unarchivedMultiPolylineFeature, anotherMultiPolylineFeature);
@@ -491,7 +491,7 @@
                                                   @(arc4random_uniform(100)),
                                                   @(arc4random_uniform(100))]};
 
-    NSString *filePath = [self temporaryFilePathForClass:[MGLMultiPolylineFeature class]];
+    NSString *filePath = [self temporaryFilePathForClass:[VMGLMultiPolylineFeature class]];
     [NSKeyedArchiver archiveRootObject:multiPolygonFeature toFile:filePath];
 
     MGLMultiPolygonFeature *unarchivedMultiPolygonFeature = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
@@ -510,7 +510,7 @@
 
     NSUInteger numberOfCoordinates = sizeof(coordinates) / sizeof(CLLocationCoordinate2D);
 
-    MGLPolylineFeature *polyline = [MGLPolylineFeature polylineWithCoordinates:coordinates count:numberOfCoordinates];
+    VMGLPolylineFeature *polyline = [VMGLPolylineFeature polylineWithCoordinates:coordinates count:numberOfCoordinates];
     MGLPolygonFeature *polygon = [MGLPolygonFeature polygonWithCoordinates:coordinates count:numberOfCoordinates];
 
     MGLShapeCollectionFeature *shapeCollectionFeature = [MGLShapeCollectionFeature shapeCollectionWithShapes:@[polyline, polygon]];
@@ -542,29 +542,29 @@
     [image unlockFocus];
 #endif
 
-    MGLAnnotationImage *annotationImage = [MGLAnnotationImage annotationImageWithImage:image reuseIdentifier:@(arc4random_uniform(100)).stringValue];
+    VMGLAnnotationImage *annotationImage = [VMGLAnnotationImage annotationImageWithImage:image reuseIdentifier:@(arc4random_uniform(100)).stringValue];
 
-    NSString *filePath = [self temporaryFilePathForClass:[MGLAnnotationImage class]];
+    NSString *filePath = [self temporaryFilePathForClass:[VMGLAnnotationImage class]];
     [NSKeyedArchiver archiveRootObject:annotationImage toFile:filePath];
 
-    MGLAnnotationImage *unarchivedAnnotationImage = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    VMGLAnnotationImage *unarchivedAnnotationImage = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
 
     XCTAssertEqualObjects(annotationImage, unarchivedAnnotationImage);
 }
 
 #if TARGET_OS_IPHONE
 - (void)testAnnotationView {
-    MGLAnnotationView *annotationView = [[MGLAnnotationView alloc] initWithReuseIdentifier:@"id"];
+    VMGLAnnotationView *annotationView = [[VMGLAnnotationView alloc] initWithReuseIdentifier:@"id"];
     annotationView.enabled = NO;
     annotationView.selected = YES;
     annotationView.draggable = YES;
     annotationView.centerOffset = CGVectorMake(10, 10);
     annotationView.scalesWithViewingDistance = NO;
 
-    NSString *filePath = [self temporaryFilePathForClass:[MGLAnnotationView class]];
+    NSString *filePath = [self temporaryFilePathForClass:[VMGLAnnotationView class]];
     [NSKeyedArchiver archiveRootObject:annotationView toFile:filePath];
 
-    MGLAnnotationView *unarchivedAnnotationView = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    VMGLAnnotationView *unarchivedAnnotationView = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
 
     XCTAssertEqual(annotationView.enabled, unarchivedAnnotationView.enabled);
     XCTAssertEqual(annotationView.selected, unarchivedAnnotationView.selected);
@@ -576,13 +576,13 @@
 
 #if TARGET_OS_IPHONE
 - (void)testUserLocation {
-    MGLUserLocation *userLocation = [[MGLUserLocation alloc] init];
+    VMGLUserLocation *userLocation = [[VMGLUserLocation alloc] init];
     userLocation.location = [[CLLocation alloc] initWithLatitude:1 longitude:1];
 
-    NSString *filePath = [self temporaryFilePathForClass:[MGLUserLocation class]];
+    NSString *filePath = [self temporaryFilePathForClass:[VMGLUserLocation class]];
     [NSKeyedArchiver archiveRootObject:userLocation toFile:filePath];
 
-    MGLUserLocation *unarchivedUserLocation = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    VMGLUserLocation *unarchivedUserLocation = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
 
     XCTAssertEqualObjects(userLocation, unarchivedUserLocation);
     unarchivedUserLocation.location = [[CLLocation alloc] initWithLatitude:10 longitude:10];
@@ -592,17 +592,17 @@
 
 #if TARGET_OS_IPHONE
 - (void)testUserLocationAnnotationView {
-    MGLUserLocationAnnotationView *annotationView = [[MGLUserLocationAnnotationView alloc] init];
+    VMGLUserLocationAnnotationView *annotationView = [[VMGLUserLocationAnnotationView alloc] init];
     annotationView.enabled = NO;
     annotationView.selected = YES;
     annotationView.draggable = YES;
     annotationView.centerOffset = CGVectorMake(10, 10);
     annotationView.scalesWithViewingDistance = NO;
 
-    NSString *filePath = [self temporaryFilePathForClass:[MGLUserLocationAnnotationView class]];
+    NSString *filePath = [self temporaryFilePathForClass:[VMGLUserLocationAnnotationView class]];
     [NSKeyedArchiver archiveRootObject:annotationView toFile:filePath];
 
-    MGLUserLocationAnnotationView *unarchivedAnnotationView = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    VMGLUserLocationAnnotationView *unarchivedAnnotationView = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
 
     XCTAssertEqual(annotationView.enabled, unarchivedAnnotationView.enabled);
     XCTAssertEqual(annotationView.selected, unarchivedAnnotationView.selected);

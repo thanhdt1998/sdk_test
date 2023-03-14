@@ -3,12 +3,12 @@
 
 #import <mbgl/math/wrap.hpp>
 
-@interface MGLMapView (MGLCompassButtonTests)
+@interface VMGLMapView (MGLCompassButtonTests)
 - (void)resetNorthAnimated:(BOOL)animated;
 @end
 
 @interface MGLCompassButtonTests : XCTestCase
-@property (nonatomic) MGLMapView *mapView;
+@property (nonatomic) VMGLMapView *mapView;
 @end
 
 @implementation MGLCompassButtonTests
@@ -16,21 +16,21 @@
 - (void)setUp {
     [super setUp];
 
-    [MGLSettings setApiKey:@"pk.feedcafedeadbeefbadebede"];
+    [VMGLSettings setApiKey:@"pk.feedcafedeadbeefbadebede"];
     NSURL *styleURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"one-liner" withExtension:@"json"];
-    self.mapView = [[MGLMapView alloc] initWithFrame:UIScreen.mainScreen.bounds styleURL:styleURL];
+    self.mapView = [[VMGLMapView alloc] initWithFrame:UIScreen.mainScreen.bounds styleURL:styleURL];
 }
 
 - (void)tearDown {
     self.mapView = nil;
-    [MGLSettings setApiKey:nil];
+    [VMGLSettings setApiKey:nil];
 
     [super tearDown];
 }
 
 - (void)testCompassButton {
     XCTAssertNotNil(self.mapView.compassView);
-    XCTAssertTrue([self.mapView.compassView isKindOfClass:[MGLCompassButton class]]);
+    XCTAssertTrue([self.mapView.compassView isKindOfClass:[VMGLCompassButton class]]);
     XCTAssertTrue(self.mapView.compassView.userInteractionEnabled);
     XCTAssertEqual(self.mapView.compassView.gestureRecognizers.count, (unsigned long)1);
     XCTAssertEqual(self.mapView.compassView.accessibilityTraits, UIAccessibilityTraitButton);
@@ -84,7 +84,7 @@
     for (NSNumber *degrees in @[@-999, @-359, @-240, @-180, @-90, @-45, @0, @45, @90, @180, @240, @360, @999]) {
         self.mapView.direction = [degrees doubleValue];
         CGFloat wrappedDirection = mbgl::util::wrap(-self.mapView.direction, 0., 360.);
-        CGAffineTransform rotation = CGAffineTransformMakeRotation(MGLRadiansFromDegrees(wrappedDirection));
+        CGAffineTransform rotation = CGAffineTransformMakeRotation(VMGLRadiansFromDegrees(wrappedDirection));
         XCTAssertTrue(CGAffineTransformEqualToTransform(self.mapView.compassView.transform, rotation),
                       @"Compass transform direction %f° should equal wrapped transform direction %f° (~%.f°).", [self degreesFromAffineTransform:self.mapView.compassView.transform], [self degreesFromAffineTransform:rotation], wrappedDirection);
     }
@@ -92,7 +92,7 @@
 
 - (CGFloat)degreesFromAffineTransform:(CGAffineTransform)transform {
     CGFloat angle = atan2f(transform.b, transform.a);
-    return MGLDegreesFromRadians(angle);
+    return VMGLDegreesFromRadians(angle);
 }
 
 @end

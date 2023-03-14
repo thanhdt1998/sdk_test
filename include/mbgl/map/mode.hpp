@@ -30,7 +30,7 @@ enum class ViewportMode : EnumType {
     FlippedY,
 };
 
-enum class MapDebugOptions : EnumType {
+enum class VMGLDebugOptions : EnumType {
     NoDebug     = 0,
     TileBorders = 1 << 1,
     ParseStatus = 1 << 2,
@@ -41,24 +41,24 @@ enum class MapDebugOptions : EnumType {
     DepthBuffer = 1 << 7,
 };
 
-MBGL_CONSTEXPR MapDebugOptions operator|(MapDebugOptions lhs, MapDebugOptions rhs) {
-    return MapDebugOptions(mbgl::underlying_type(lhs) | mbgl::underlying_type(rhs));
+MBGL_CONSTEXPR VMGLDebugOptions operator|(VMGLDebugOptions lhs, VMGLDebugOptions rhs) {
+    return VMGLDebugOptions(mbgl::underlying_type(lhs) | mbgl::underlying_type(rhs));
 }
 
-MBGL_CONSTEXPR MapDebugOptions& operator|=(MapDebugOptions& lhs, MapDebugOptions rhs) {
-    return (lhs = MapDebugOptions(mbgl::underlying_type(lhs) | mbgl::underlying_type(rhs)));
+MBGL_CONSTEXPR VMGLDebugOptions& operator|=(VMGLDebugOptions& lhs, VMGLDebugOptions rhs) {
+    return (lhs = VMGLDebugOptions(mbgl::underlying_type(lhs) | mbgl::underlying_type(rhs)));
 }
 
-MBGL_CONSTEXPR bool operator&(MapDebugOptions lhs, MapDebugOptions rhs) {
+MBGL_CONSTEXPR bool operator&(VMGLDebugOptions lhs, VMGLDebugOptions rhs) {
     return mbgl::underlying_type(lhs) & mbgl::underlying_type(rhs);
 }
 
-MBGL_CONSTEXPR MapDebugOptions& operator&=(MapDebugOptions& lhs, MapDebugOptions rhs) {
-    return (lhs = MapDebugOptions(mbgl::underlying_type(lhs) & mbgl::underlying_type(rhs)));
+MBGL_CONSTEXPR VMGLDebugOptions& operator&=(VMGLDebugOptions& lhs, VMGLDebugOptions rhs) {
+    return (lhs = VMGLDebugOptions(mbgl::underlying_type(lhs) & mbgl::underlying_type(rhs)));
 }
 
-MBGL_CONSTEXPR MapDebugOptions operator~(MapDebugOptions value) {
-    return MapDebugOptions(~mbgl::underlying_type(value));
+MBGL_CONSTEXPR VMGLDebugOptions operator~(VMGLDebugOptions value) {
+    return VMGLDebugOptions(~mbgl::underlying_type(value));
 }
 
 } // namespace mbgl

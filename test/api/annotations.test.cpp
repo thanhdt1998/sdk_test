@@ -544,7 +544,7 @@ TEST(Annotations, DebugEmpty) {
     AnnotationTest test;
 
     test.map.getStyle().loadJSON(util::read_file("test/fixtures/api/empty.json"));
-    test.map.setDebug(MapDebugOptions::TileBorders);
+    test.map.setDebug(VMGLDebugOptions::TileBorders);
     test.map.jumpTo(CameraOptions().withZoom(1.0));
 
     test.checkRendering("debug_empty");
@@ -561,7 +561,7 @@ TEST(Annotations, DebugSparse) {
     AnnotationTest test;
 
     test.map.getStyle().loadJSON(util::read_file("test/fixtures/api/empty.json"));
-    test.map.setDebug(MapDebugOptions::TileBorders);
+    test.map.setDebug(VMGLDebugOptions::TileBorders);
     test.map.jumpTo(CameraOptions().withZoom(1.0));
     test.map.addAnnotationImage(namedMarker("default_marker"));
     test.map.addAnnotation(SymbolAnnotation { Point<double>(10, 10), "default_marker" });

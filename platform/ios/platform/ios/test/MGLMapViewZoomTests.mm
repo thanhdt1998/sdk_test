@@ -4,7 +4,7 @@
 
 #import <mbgl/math/wrap.hpp>
 
-@interface MGLMapView (MGLMapViewZoomTests)
+@interface VMGLMapView (MGLMapViewZoomTests)
 @property (nonatomic) BOOL isZooming;
 @property (nonatomic) CGFloat rotationThresholdWhileZooming;
 - (void)handlePinchGesture:(UIPinchGestureRecognizer *)pinch;
@@ -12,7 +12,7 @@
 @end
 
 @interface MGLMapViewZoomTests : XCTestCase
-@property (nonatomic) MGLMapView *mapView;
+@property (nonatomic) VMGLMapView *mapView;
 @end
 
 @implementation MGLMapViewZoomTests
@@ -20,14 +20,14 @@
 - (void)setUp {
     [super setUp];
 
-    [MGLSettings setApiKey:@"pk.feedcafedeadbeefbadebede"];
+    [VMGLSettings setApiKey:@"pk.feedcafedeadbeefbadebede"];
     NSURL *styleURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"one-liner" withExtension:@"json"];
-    self.mapView = [[MGLMapView alloc] initWithFrame:UIScreen.mainScreen.bounds styleURL:styleURL];
+    self.mapView = [[VMGLMapView alloc] initWithFrame:UIScreen.mainScreen.bounds styleURL:styleURL];
 }
 
 - (void)tearDown {
     self.mapView = nil;
-    [MGLSettings setApiKey:nil];
+    [VMGLSettings setApiKey:nil];
     [super tearDown];
 }
 
@@ -143,7 +143,7 @@
 
     UIRotationGestureRecognizerMock *rotate = [[UIRotationGestureRecognizerMock alloc] initWithTarget:self.mapView action:nil];
     rotate.state = UIGestureRecognizerStateBegan;
-    rotate.rotation = MGLRadiansFromDegrees(1);
+    rotate.rotation = VMGLRadiansFromDegrees(1);
     [self.mapView addGestureRecognizer:rotate];
     [self.mapView handleRotateGesture:rotate];
 
@@ -154,7 +154,7 @@
     // The direction should be `0`. The default rotation threshold is `3`.
     XCTAssertEqual(self.mapView.direction, 0);
     rotate.state = UIGestureRecognizerStateChanged;
-    rotate.rotation = MGLRadiansFromDegrees(2);
+    rotate.rotation = VMGLRadiansFromDegrees(2);
     [self.mapView handleRotateGesture:rotate];
 
     // The direction should be `0`. The default rotation threshold is `3`.
@@ -162,10 +162,10 @@
 
     for (NSNumber *degrees in @[@-90, @-10, @10, @10, @30, @90, @180, @240, @460, @500, @590, @800]) {
         rotate.state = UIGestureRecognizerStateChanged;
-        rotate.rotation = MGLRadiansFromDegrees([degrees doubleValue]);
+        rotate.rotation = VMGLRadiansFromDegrees([degrees doubleValue]);
         [self.mapView handleRotateGesture:rotate];
 
-        CGFloat wrappedRotation = mbgl::util::wrap(-MGLDegreesFromRadians(rotate.rotation), 0., 360.);
+        CGFloat wrappedRotation = mbgl::util::wrap(-VMGLDegreesFromRadians(rotate.rotation), 0., 360.);
 
 
        // Check that the direction property now matches the gesture's rotation.

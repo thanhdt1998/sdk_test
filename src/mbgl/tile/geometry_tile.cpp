@@ -154,12 +154,12 @@ GeometryTile::GeometryTile(const OverscaledTileID& id_,
              obsolete,
              parameters.mode,
              parameters.pixelRatio,
-             parameters.debugOptions & MapDebugOptions::Collision),
+             parameters.debugOptions & VMGLDebugOptions::Collision),
       fileSource(parameters.fileSource),
       glyphManager(parameters.glyphManager),
       imageManager(parameters.imageManager),
       mode(parameters.mode),
-      showCollisionBoxes(parameters.debugOptions & MapDebugOptions::Collision) {
+      showCollisionBoxes(parameters.debugOptions & VMGLDebugOptions::Collision) {
 }
 
 GeometryTile::~GeometryTile() {

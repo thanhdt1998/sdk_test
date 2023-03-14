@@ -9,29 +9,29 @@
 @implementation MGLGeometryTests
 
 - (void)testCoordinateBoundsIsEmpty {
-    MGLCoordinateBounds emptyBounds = MGLCoordinateBoundsMake(CLLocationCoordinate2DMake(0, 0), CLLocationCoordinate2DMake(10, 0));
+    VMGLCoordinateBounds emptyBounds = MGLCoordinateBoundsMake(CLLocationCoordinate2DMake(0, 0), CLLocationCoordinate2DMake(10, 0));
     XCTAssertTrue(MGLCoordinateBoundsIsEmpty(emptyBounds));
     XCTAssertFalse(MGLCoordinateSpanEqualToCoordinateSpan(MGLCoordinateSpanZero, MGLCoordinateBoundsGetCoordinateSpan(emptyBounds)));
 }
 
 - (void)testAngleConversions {
-    XCTAssertEqualWithAccuracy(-180, MGLDegreesFromRadians(-M_PI), 1e-5);
-    XCTAssertEqual(0, MGLDegreesFromRadians(0));
-    XCTAssertEqualWithAccuracy(45, MGLDegreesFromRadians(M_PI_4), 1e-5);
-    XCTAssertEqualWithAccuracy(90, MGLDegreesFromRadians(M_PI_2), 1e-5);
-    XCTAssertEqualWithAccuracy(180, MGLDegreesFromRadians(M_PI), 1e-5);
-    XCTAssertEqualWithAccuracy(360, MGLDegreesFromRadians(2 * M_PI), 1e-5);
-    XCTAssertEqualWithAccuracy(720, MGLDegreesFromRadians(4 * M_PI), 1e-5);
+    XCTAssertEqualWithAccuracy(-180, VMGLDegreesFromRadians(-M_PI), 1e-5);
+    XCTAssertEqual(0, VMGLDegreesFromRadians(0));
+    XCTAssertEqualWithAccuracy(45, VMGLDegreesFromRadians(M_PI_4), 1e-5);
+    XCTAssertEqualWithAccuracy(90, VMGLDegreesFromRadians(M_PI_2), 1e-5);
+    XCTAssertEqualWithAccuracy(180, VMGLDegreesFromRadians(M_PI), 1e-5);
+    XCTAssertEqualWithAccuracy(360, VMGLDegreesFromRadians(2 * M_PI), 1e-5);
+    XCTAssertEqualWithAccuracy(720, VMGLDegreesFromRadians(4 * M_PI), 1e-5);
     
-    XCTAssertEqualWithAccuracy(-360, MGLDegreesFromRadians(MGLRadiansFromDegrees(-360)), 1e-4);
-    XCTAssertEqualWithAccuracy(-180, MGLDegreesFromRadians(MGLRadiansFromDegrees(-180)), 1e-5);
-    XCTAssertEqualWithAccuracy(-90, MGLDegreesFromRadians(MGLRadiansFromDegrees(-90)), 1e-5);
-    XCTAssertEqualWithAccuracy(-45, MGLDegreesFromRadians(MGLRadiansFromDegrees(-45)), 1e-5);
-    XCTAssertEqualWithAccuracy(0, MGLDegreesFromRadians(MGLRadiansFromDegrees(0)), 1e-5);
-    XCTAssertEqualWithAccuracy(45, MGLDegreesFromRadians(MGLRadiansFromDegrees(45)), 1e-5);
-    XCTAssertEqualWithAccuracy(90, MGLDegreesFromRadians(MGLRadiansFromDegrees(90)), 1e-5);
-    XCTAssertEqualWithAccuracy(180, MGLDegreesFromRadians(MGLRadiansFromDegrees(180)), 1e-5);
-    XCTAssertEqualWithAccuracy(360, MGLDegreesFromRadians(MGLRadiansFromDegrees(360)), 1e-4);
+    XCTAssertEqualWithAccuracy(-360, VMGLDegreesFromRadians(VMGLRadiansFromDegrees(-360)), 1e-4);
+    XCTAssertEqualWithAccuracy(-180, VMGLDegreesFromRadians(VMGLRadiansFromDegrees(-180)), 1e-5);
+    XCTAssertEqualWithAccuracy(-90, VMGLDegreesFromRadians(VMGLRadiansFromDegrees(-90)), 1e-5);
+    XCTAssertEqualWithAccuracy(-45, VMGLDegreesFromRadians(VMGLRadiansFromDegrees(-45)), 1e-5);
+    XCTAssertEqualWithAccuracy(0, VMGLDegreesFromRadians(VMGLRadiansFromDegrees(0)), 1e-5);
+    XCTAssertEqualWithAccuracy(45, VMGLDegreesFromRadians(VMGLRadiansFromDegrees(45)), 1e-5);
+    XCTAssertEqualWithAccuracy(90, VMGLDegreesFromRadians(VMGLRadiansFromDegrees(90)), 1e-5);
+    XCTAssertEqualWithAccuracy(180, VMGLDegreesFromRadians(VMGLRadiansFromDegrees(180)), 1e-5);
+    XCTAssertEqualWithAccuracy(360, VMGLDegreesFromRadians(VMGLRadiansFromDegrees(360)), 1e-4);
 }
 
 - (void)testAltitudeConversions {
@@ -39,18 +39,18 @@
     CGSize midSize = CGSizeMake(600, 800);
     CGSize shortSize = CGSizeMake(600, 400);
     
-    XCTAssertEqualWithAccuracy(1800, MGLAltitudeForZoomLevel(MGLZoomLevelForAltitude(1800, 0, 0, midSize), 0, 0, midSize), 1e-8);
-    XCTAssertLessThan(MGLZoomLevelForAltitude(1800, 0, 0, midSize), MGLZoomLevelForAltitude(1800, 0, 0, tallSize));
-    XCTAssertGreaterThan(MGLZoomLevelForAltitude(1800, 0, 0, midSize), MGLZoomLevelForAltitude(1800, 0, 0, shortSize));
+    XCTAssertEqualWithAccuracy(1800, MGLAltitudeForZoomLevel(VMGLZoomLevelForAltitude(1800, 0, 0, midSize), 0, 0, midSize), 1e-8);
+    XCTAssertLessThan(VMGLZoomLevelForAltitude(1800, 0, 0, midSize), VMGLZoomLevelForAltitude(1800, 0, 0, tallSize));
+    XCTAssertGreaterThan(VMGLZoomLevelForAltitude(1800, 0, 0, midSize), VMGLZoomLevelForAltitude(1800, 0, 0, shortSize));
     
-    XCTAssertEqualWithAccuracy(0, MGLZoomLevelForAltitude(MGLAltitudeForZoomLevel(0, 0, 0, midSize), 0, 0, midSize), 1e-8);
-    XCTAssertEqualWithAccuracy(18, MGLZoomLevelForAltitude(MGLAltitudeForZoomLevel(18, 0, 0, midSize), 0, 0, midSize), 1e-8);
+    XCTAssertEqualWithAccuracy(0, VMGLZoomLevelForAltitude(MGLAltitudeForZoomLevel(0, 0, 0, midSize), 0, 0, midSize), 1e-8);
+    XCTAssertEqualWithAccuracy(18, VMGLZoomLevelForAltitude(MGLAltitudeForZoomLevel(18, 0, 0, midSize), 0, 0, midSize), 1e-8);
     
-    XCTAssertEqualWithAccuracy(0, MGLZoomLevelForAltitude(MGLAltitudeForZoomLevel(0, 0, 40, midSize), 0, 40, midSize), 1e-8);
-    XCTAssertEqualWithAccuracy(18, MGLZoomLevelForAltitude(MGLAltitudeForZoomLevel(18, 0, 40, midSize), 0, 40, midSize), 1e-8);
+    XCTAssertEqualWithAccuracy(0, VMGLZoomLevelForAltitude(MGLAltitudeForZoomLevel(0, 0, 40, midSize), 0, 40, midSize), 1e-8);
+    XCTAssertEqualWithAccuracy(18, VMGLZoomLevelForAltitude(MGLAltitudeForZoomLevel(18, 0, 40, midSize), 0, 40, midSize), 1e-8);
     
-    XCTAssertEqualWithAccuracy(0, MGLZoomLevelForAltitude(MGLAltitudeForZoomLevel(0, 60, 40, midSize), 60, 40, midSize), 1e-8);
-    XCTAssertEqualWithAccuracy(18, MGLZoomLevelForAltitude(MGLAltitudeForZoomLevel(18, 60, 40, midSize), 60, 40, midSize), 1e-8);
+    XCTAssertEqualWithAccuracy(0, VMGLZoomLevelForAltitude(MGLAltitudeForZoomLevel(0, 60, 40, midSize), 60, 40, midSize), 1e-8);
+    XCTAssertEqualWithAccuracy(18, VMGLZoomLevelForAltitude(MGLAltitudeForZoomLevel(18, 60, 40, midSize), 60, 40, midSize), 1e-8);
 }
 
 - (void)testGeometryBoxing {
@@ -66,9 +66,9 @@
     XCTAssertEqual(span.latitudeDelta, roundTrippedSpan.latitudeDelta, @"Latitude delta should round-trip.");
     XCTAssertEqual(span.longitudeDelta, roundTrippedSpan.longitudeDelta, @"Longitude delta should round-trip.");
 
-    MGLCoordinateBounds bounds = MGLCoordinateBoundsMake(CLLocationCoordinate2DMake(38.9131982, -77.0325453144239),
+    VMGLCoordinateBounds bounds = MGLCoordinateBoundsMake(CLLocationCoordinate2DMake(38.9131982, -77.0325453144239),
                                                          CLLocationCoordinate2DMake(37.7757368, -122.4135302));
-    MGLCoordinateBounds roundTrippedBounds = [NSValue valueWithMGLCoordinateBounds:bounds].MGLCoordinateBoundsValue;
+    VMGLCoordinateBounds roundTrippedBounds = [NSValue valueWithMGLCoordinateBounds:bounds].MGLCoordinateBoundsValue;
 
     XCTAssertEqualObjects([NSValue valueWithMGLCoordinate:bounds.sw],
                           [NSValue valueWithMGLCoordinate:roundTrippedBounds.sw],
@@ -81,28 +81,28 @@
 - (void)testCoordinateInCoordinateBounds {
     CLLocationCoordinate2D ne = CLLocationCoordinate2DMake(45, -104);
     CLLocationCoordinate2D sw = CLLocationCoordinate2DMake(41, -111);
-    MGLCoordinateBounds wyoming = MGLCoordinateBoundsMake(sw, ne);
+    VMGLCoordinateBounds wyoming = MGLCoordinateBoundsMake(sw, ne);
 
     CLLocationCoordinate2D centerOfWyoming = CLLocationCoordinate2DMake(43, -107.5);
 
-    XCTAssertTrue(MGLCoordinateInCoordinateBounds(ne, wyoming));
-    XCTAssertTrue(MGLCoordinateInCoordinateBounds(sw, wyoming));
-    XCTAssertTrue(MGLCoordinateInCoordinateBounds(centerOfWyoming, wyoming));
+    XCTAssertTrue(VMGLCoordinateInCoordinateBounds(ne, wyoming));
+    XCTAssertTrue(VMGLCoordinateInCoordinateBounds(sw, wyoming));
+    XCTAssertTrue(VMGLCoordinateInCoordinateBounds(centerOfWyoming, wyoming));
 
     CLLocationCoordinate2D australia = CLLocationCoordinate2DMake(-25, 135);
     CLLocationCoordinate2D brazil = CLLocationCoordinate2DMake(-12, -50);
     CLLocationCoordinate2D china = CLLocationCoordinate2DMake(35, 100);
 
-    XCTAssertFalse(MGLCoordinateInCoordinateBounds(australia, wyoming));
-    XCTAssertFalse(MGLCoordinateInCoordinateBounds(brazil, wyoming));
-    XCTAssertFalse(MGLCoordinateInCoordinateBounds(china, wyoming));
-    XCTAssertFalse(MGLCoordinateInCoordinateBounds(kCLLocationCoordinate2DInvalid, wyoming));
+    XCTAssertFalse(VMGLCoordinateInCoordinateBounds(australia, wyoming));
+    XCTAssertFalse(VMGLCoordinateInCoordinateBounds(brazil, wyoming));
+    XCTAssertFalse(VMGLCoordinateInCoordinateBounds(china, wyoming));
+    XCTAssertFalse(VMGLCoordinateInCoordinateBounds(kCLLocationCoordinate2DInvalid, wyoming));
 }
 
 - (void)testGeoJSONDeserialization {
     NSData *data = [@"{\"type\": \"Feature\", \"geometry\": {\"type\": \"Point\", \"coordinates\": [0, 0]}, \"properties\": {}}" dataUsingEncoding:NSUTF8StringEncoding];
     NSError *error;
-    MGLPointFeature *feature = (MGLPointFeature *)[MGLShape shapeWithData:data encoding:NSUTF8StringEncoding error:&error];
+    MGLPointFeature *feature = (MGLPointFeature *)[VMGLShape shapeWithData:data encoding:NSUTF8StringEncoding error:&error];
     XCTAssertNil(error, @"Valid GeoJSON data should produce no error on deserialization.");
     XCTAssertNotNil(feature, @"Valid GeoJSON data should produce an object on deserialization.");
     XCTAssertTrue([feature isKindOfClass:[MGLPointFeature class]], @"Valid GeoJSON point feature data should produce an MGLPointFeature.");
@@ -112,7 +112,7 @@
 
     data = [@"{\"type\": \"Feature\", \"feature\": {\"type\": \"Point\", \"coordinates\": [0, 0]}}" dataUsingEncoding:NSUTF8StringEncoding];
     error = nil;
-    MGLShape *shape = [MGLShape shapeWithData:data encoding:NSUTF8StringEncoding error:&error];
+    VMGLShape *shape = [VMGLShape shapeWithData:data encoding:NSUTF8StringEncoding error:&error];
     XCTAssertNotNil(error, @"Invalid GeoJSON data should produce an error on deserialization.");
     XCTAssertNil(shape, @"Invalid GeoJSON data should produce no object on deserialization.");
 }
@@ -145,7 +145,7 @@
 }
 
 - (void)testMGLCoordinateBoundsToMGLCoordinateQuad {
-    MGLCoordinateBounds bounds = MGLCoordinateBoundsMake(CLLocationCoordinate2DMake(37.936, -80.425),
+    VMGLCoordinateBounds bounds = MGLCoordinateBoundsMake(CLLocationCoordinate2DMake(37.936, -80.425),
                                                          CLLocationCoordinate2DMake(46.437, -71.516));
 
     MGLCoordinateQuad quad = MGLCoordinateQuadFromCoordinateBounds(bounds);

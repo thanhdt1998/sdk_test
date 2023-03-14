@@ -17,7 +17,7 @@ class GlyphManager;
 class TileParameters {
 public:
     const float pixelRatio;
-    const MapDebugOptions debugOptions;
+    const VMGLDebugOptions debugOptions;
     const TransformState& transformState;
     std::shared_ptr<FileSource> fileSource;
     const MapMode mode;

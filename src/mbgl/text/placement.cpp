@@ -182,7 +182,7 @@ Placement::Placement(std::shared_ptr<const UpdateParameters> updateParameters_,
       placementZoom(static_cast<float>(updateParameters->transformState.getZoom())),
       collisionGroups(updateParameters->crossSourceCollisions),
       prevPlacement(std::move(prevPlacement_)),
-      showCollisionBoxes(updateParameters->debugOptions & MapDebugOptions::Collision) {
+      showCollisionBoxes(updateParameters->debugOptions & VMGLDebugOptions::Collision) {
     if (prevPlacement) {
         prevPlacement->get()->prevPlacement = nullopt; // Only hold on to one placement back
     }

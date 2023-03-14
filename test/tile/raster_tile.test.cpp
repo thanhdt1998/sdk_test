@@ -26,7 +26,7 @@ public:
     Tileset tileset { { "https://example.com" }, { 0, 22 }, "none" };
 
     TileParameters tileParameters{1.0,
-                                  MapDebugOptions(),
+                                  VMGLDebugOptions(),
                                   transformState,
                                   fileSource,
                                   MapMode::Continuous,

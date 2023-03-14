@@ -5,7 +5,7 @@
     #import <Cocoa/Cocoa.h>
 #endif
 
-#import "MGLTypes.h"
+#import "VMGLTypes.h"
 
 @class MGLAttributedExpression;
 

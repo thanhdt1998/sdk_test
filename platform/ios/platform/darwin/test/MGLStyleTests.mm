@@ -11,10 +11,10 @@
 #endif
 #import <objc/runtime.h>
 
-@interface MGLStyleTests : XCTestCase <MGLMapViewDelegate>
+@interface MGLStyleTests : XCTestCase <VMGLMapViewDelegate>
 
-@property (nonatomic) MGLMapView *mapView;
-@property (nonatomic) MGLStyle *style;
+@property (nonatomic) VMGLMapView *mapView;
+@property (nonatomic) VMGLStyle *style;
 
 @end
 
@@ -25,11 +25,11 @@
 - (void)setUp {
     [super setUp];
     
-    [MGLSettings useWellKnownTileServer:MGLMapTiler];
-    [MGLSettings setApiKey:@"pk.feedcafedeadbeefbadebede"];
+    [VMGLSettings useWellKnownTileServer:MGLMapTiler];
+    [VMGLSettings setApiKey:@"pk.feedcafedeadbeefbadebede"];
     
     NSURL *styleURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"one-liner" withExtension:@"json"];
-    self.mapView = [[MGLMapView alloc] initWithFrame:CGRectMake(0, 0, 100, 100) styleURL:styleURL];
+    self.mapView = [[VMGLMapView alloc] initWithFrame:CGRectMake(0, 0, 100, 100) styleURL:styleURL];
     self.mapView.delegate = self;
     if (!self.mapView.style) {
         _styleLoadingExpectation = [self expectationWithDescription:@"Map view should finish loading style."];
@@ -37,7 +37,7 @@
     }
 }
 
-- (void)mapView:(MGLMapView *)mapView didFinishLoadingStyle:(MGLStyle *)style {
+- (void)mapView:(VMGLMapView *)mapView didFinishLoadingStyle:(VMGLStyle *)style {
     XCTAssertNotNil(mapView.style);
     XCTAssertEqual(mapView.style, style);
 
@@ -51,7 +51,7 @@
     [super tearDown];
 }
 
-- (MGLStyle *)style {
+- (VMGLStyle *)style {
     return self.mapView.style;
 }
 
@@ -60,7 +60,7 @@
 }
 
 - (void)testSources {
-    NSSet<MGLSource *> *initialSources = self.style.sources;
+    NSSet<VMGLSource *> *initialSources = self.style.sources;
     if ([initialSources.anyObject.identifier isEqualToString:@"com.mapbox.annotations"]) {
         XCTAssertEqual(self.style.sources.count, 1UL);
     } else {

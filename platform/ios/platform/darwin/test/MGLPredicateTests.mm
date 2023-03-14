@@ -25,7 +25,7 @@
     XCTAssertThrowsSpecificNamed([NSPredicate predicateWithFormat:@"a ENDSWITH 'itude'"].mgl_filter, NSException, NSInvalidArgumentException);
     XCTAssertThrowsSpecificNamed([NSPredicate predicateWithFormat:@"a LIKE 'glob?trotter'"].mgl_filter, NSException, NSInvalidArgumentException);
     XCTAssertThrowsSpecificNamed([NSPredicate predicateWithFormat:@"a MATCHES 'i\\w{18}n'"].mgl_filter, NSException, NSInvalidArgumentException);
-    NSPredicate *selectorPredicate = [NSPredicate predicateWithFormat:@"(SELF isKindOfClass: %@)", [MGLPolyline class]];
+    NSPredicate *selectorPredicate = [NSPredicate predicateWithFormat:@"(SELF isKindOfClass: %@)", [VMGLPolyline class]];
     XCTAssertThrowsSpecificNamed(selectorPredicate.mgl_filter, NSException, NSInvalidArgumentException);
     
     XCTAssertThrowsSpecificNamed([NSPredicate predicateWithBlock:^BOOL(id _Nullable evaluatedObject, NSDictionary<NSString *, id> * _Nullable bindings) {
@@ -397,7 +397,7 @@
             { .latitude = 1, .longitude = 1 },
             { .latitude = 0, .longitude = 1 },
         };
-        MGLPolygon *shape = [MGLPolygon polygonWithCoordinates:coordinates count:sizeof(coordinates) / sizeof(coordinates[0])];
+        VMGLPolygon *shape = [VMGLPolygon polygonWithCoordinates:coordinates count:sizeof(coordinates) / sizeof(coordinates[0])];
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF IN %@", shape];
         XCTAssertEqualObjects(predicate.mgl_jsonExpressionObject, expected);
         XCTAssertEqualObjects([NSPredicate predicateWithMGLJSONObject:expected], predicate);

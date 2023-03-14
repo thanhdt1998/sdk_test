@@ -524,15 +524,15 @@ TestMetadata parseTestMetadata(const TestPaths& paths) {
     // Test operations handled in runner.cpp.
 
     if (testValue.HasMember("debug")) {
-        metadata.debug |= mbgl::MapDebugOptions::TileBorders;
+        metadata.debug |= mbgl::VMGLDebugOptions::TileBorders;
     }
 
     if (testValue.HasMember("collisionDebug")) {
-        metadata.debug |= mbgl::MapDebugOptions::Collision;
+        metadata.debug |= mbgl::VMGLDebugOptions::Collision;
     }
 
     if (testValue.HasMember("showOverdrawInspector")) {
-        metadata.debug |= mbgl::MapDebugOptions::Overdraw;
+        metadata.debug |= mbgl::VMGLDebugOptions::Overdraw;
     }
 
     if (testValue.HasMember("crossSourceCollisions")) {

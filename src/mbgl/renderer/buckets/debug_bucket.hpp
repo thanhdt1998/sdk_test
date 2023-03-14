@@ -21,7 +21,7 @@ public:
                 bool complete,
                 optional<Timestamp> modified,
                 optional<Timestamp> expires,
-                MapDebugOptions);
+                VMGLDebugOptions);
 
     void upload(gfx::UploadPass&);
 
@@ -29,7 +29,7 @@ public:
     const bool complete;
     const optional<Timestamp> modified;
     const optional<Timestamp> expires;
-    const MapDebugOptions debugMode;
+    const VMGLDebugOptions debugMode;
 
 
     gfx::VertexVector<FillLayoutVertex> vertices;

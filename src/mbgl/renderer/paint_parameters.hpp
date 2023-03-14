@@ -49,7 +49,7 @@ public:
                     gfx::RendererBackend&,
                     const EvaluatedLight&,
                     MapMode,
-                    MapDebugOptions,
+                    VMGLDebugOptions,
                     TimePoint,
                     const TransformParameters&,
                     RenderStaticData&,
@@ -72,7 +72,7 @@ public:
 
     RenderPass pass = RenderPass::Opaque;
     MapMode mapMode;
-    MapDebugOptions debugOptions;
+    VMGLDebugOptions debugOptions;
     TimePoint timePoint;
 
     float pixelRatio;

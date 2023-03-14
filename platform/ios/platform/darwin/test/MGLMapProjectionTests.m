@@ -12,8 +12,8 @@
 
 @interface MGLMapProjectionTests : XCTestCase
 
-@property (nonatomic, retain) MGLMapView *mapView;
-@property (nonatomic, retain) MGLMapProjection *mapProjection;
+@property (nonatomic, retain) VMGLMapView *mapView;
+@property (nonatomic, retain) VMGLMapProjection *mapProjection;
 
 @end
 
@@ -22,9 +22,9 @@
 - (void)setUp {
     [super setUp];
 
-    [MGLSettings setApiKey:@"pk.feedcafedeadbeefbadebede"];
+    [VMGLSettings setApiKey:@"pk.feedcafedeadbeefbadebede"];
     NSURL *styleURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"one-liner" withExtension:@"json"];
-    self.mapView = [[MGLMapView alloc] initWithFrame:CGRectMake(0, 0, 200, 200) styleURL:styleURL];
+    self.mapView = [[VMGLMapView alloc] initWithFrame:CGRectMake(0, 0, 200, 200) styleURL:styleURL];
 
     [self.mapView setVisibleCoordinateBounds:MGLCoordinateBoundsMake(CLLocationCoordinate2DMake(1.0, 1.0),
                                                                      CLLocationCoordinate2DMake(2.0, 2.0))];
@@ -35,7 +35,7 @@
 - (void)tearDown {
     self.mapView = nil;
     self.mapProjection = nil;
-    [MGLSettings setApiKey:nil];
+    [VMGLSettings setApiKey:nil];
 
     [super tearDown];
 }
@@ -46,11 +46,11 @@
 }
 
 - (void)testMapProjectionCameraSet {
-    MGLCoordinateBounds newBounds = MGLCoordinateBoundsMake(CLLocationCoordinate2DMake(3.0, 3.0),
+    struct MGLCoordinateBounds newBounds = MGLCoordinateBoundsMake(CLLocationCoordinate2DMake(3.0, 3.0),
                                                             CLLocationCoordinate2DMake(4.0, 4.0));
     MGLEdgeInsets paddings = MGLEdgeInsetsMake(10.0, 10.0, 10.0, 10.0);
 
-    MGLMapCamera *newCamera = [self.mapView cameraThatFitsCoordinateBounds:newBounds edgePadding:paddings];
+    VMGLMapCamera *newCamera = [self.mapView cameraThatFitsCoordinateBounds:newBounds edgePadding:paddings];
     [self.mapProjection setCamera:newCamera withEdgeInsets:paddings];
 
     XCTAssertTrue([self.mapProjection.camera isEqualToMapCamera:newCamera],
@@ -70,7 +70,7 @@
 }
 
 - (void)testMapProjectionVisibleBoundsSet {
-    MGLCoordinateBounds newBounds = MGLCoordinateBoundsMake(CLLocationCoordinate2DMake(3.0, 3.0),
+    struct MGLCoordinateBounds newBounds = MGLCoordinateBoundsMake(CLLocationCoordinate2DMake(3.0, 3.0),
                                                             CLLocationCoordinate2DMake(4.0, 4.0));
     MGLEdgeInsets paddings = MGLEdgeInsetsMake(10.0, 10.0, 10.0, 10.0);
 

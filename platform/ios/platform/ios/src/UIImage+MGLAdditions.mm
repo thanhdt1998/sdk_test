@@ -3,7 +3,7 @@
 
 #include <mbgl/util/image+MGLAdditions.hpp>
 
-const MGLExceptionName MGLResourceNotFoundException = @"MGLResourceNotFoundException";
+const VMGLExceptionName MGLResourceNotFoundException = @"MGLResourceNotFoundException";
 
 BOOL MGLEdgeInsetsIsZero(UIEdgeInsets edgeInsets) {
     return edgeInsets.left == 0 && edgeInsets.top == 0 && edgeInsets.right == 0 && edgeInsets.bottom == 0;

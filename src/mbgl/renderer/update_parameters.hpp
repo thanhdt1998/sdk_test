@@ -23,7 +23,7 @@ public:
     const bool styleLoaded;
     const MapMode mode;
     const float pixelRatio;
-    const MapDebugOptions debugOptions;
+    const VMGLDebugOptions debugOptions;
     const TimePoint timePoint;
     const TransformState transformState;
 

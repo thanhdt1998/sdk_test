@@ -31,7 +31,7 @@ PaintParameters::PaintParameters(gfx::Context& context_,
                     gfx::RendererBackend& backend_,
                     const EvaluatedLight& evaluatedLight_,
                     MapMode mode_,
-                    MapDebugOptions debugOptions_,
+                    VMGLDebugOptions debugOptions_,
                     TimePoint timePoint_,
                     const TransformParameters& transformParams_,
                     RenderStaticData& staticData_,
@@ -51,7 +51,7 @@ PaintParameters::PaintParameters(gfx::Context& context_,
     timePoint(timePoint_),
     pixelRatio(pixelRatio_),
 #ifndef NDEBUG
-    programs((debugOptions & MapDebugOptions::Overdraw) ? staticData_.overdrawPrograms : staticData_.programs)
+    programs((debugOptions & VMGLDebugOptions::Overdraw) ? staticData_.overdrawPrograms : staticData_.programs)
 #else
     programs(staticData_.programs)
 #endif
@@ -188,7 +188,7 @@ gfx::StencilMode PaintParameters::stencilModeFor3D() {
 }
 
 gfx::ColorMode PaintParameters::colorModeForRenderPass() const {
-    if (debugOptions & MapDebugOptions::Overdraw) {
+    if (debugOptions & VMGLDebugOptions::Overdraw) {
         const float overdraw = 1.0f / 8.0f;
         return gfx::ColorMode {
             gfx::ColorMode::Add {

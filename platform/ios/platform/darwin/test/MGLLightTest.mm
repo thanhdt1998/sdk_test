@@ -21,7 +21,7 @@
 
     MGLTransition defaultTransition = MGLTransitionMake(0, 0);
     MGLTransition transition = MGLTransitionMake(6, 3);
-    mbgl::style::TransitionOptions transitionOptions { { MGLDurationFromTimeInterval(6) }, { MGLDurationFromTimeInterval(3) } };
+    mbgl::style::TransitionOptions transitionOptions { { VMGLDurationFromTimeInterval(6) }, { VMGLDurationFromTimeInterval(3) } };
 
     // anchor
     {

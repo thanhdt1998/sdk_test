@@ -44,7 +44,7 @@ public:
     // been loaded and a complete render occurs.
     using StillImageCallback = std::function<void (std::exception_ptr)>;
     void renderStill(StillImageCallback);
-    void renderStill(const CameraOptions&, MapDebugOptions, StillImageCallback);
+    void renderStill(const CameraOptions&, VMGLDebugOptions, StillImageCallback);
 
     // Triggers a repaint.
     void triggerRepaint();
@@ -135,8 +135,8 @@ public:
     uint8_t getPrefetchZoomDelta() const;
 
     // Debug
-    void setDebug(MapDebugOptions);
-    MapDebugOptions getDebug() const;
+    void setDebug(VMGLDebugOptions);
+    VMGLDebugOptions getDebug() const;
 
     bool isFullyLoaded() const;
     void dumpDebugLogs() const;

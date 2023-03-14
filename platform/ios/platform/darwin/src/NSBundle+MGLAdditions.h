@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-#import "MGLTypes.h"
+#import "VMGLTypes.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 #define NSLocalizedStringWithDefaultValue(key, tbl, bundle, val, comment) \
     [[NSBundle mgl_frameworkBundle] localizedStringForKey:(key) value:(val) table:(tbl)]
 
-FOUNDATION_EXTERN MGL_EXPORT MGLExceptionName const MGLBundleNotFoundException;
+FOUNDATION_EXTERN MGL_EXPORT VMGLExceptionName const MGLBundleNotFoundException;
 
 @interface NSBundle (MGLAdditions)
 

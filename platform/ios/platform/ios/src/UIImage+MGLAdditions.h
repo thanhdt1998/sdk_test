@@ -1,12 +1,12 @@
 #import <UIKit/UIKit.h>
 
-#import "MGLTypes.h"
+#import "VMGLTypes.h"
 
 #include <mbgl/style/image.hpp>
 
 NS_ASSUME_NONNULL_BEGIN
 
-FOUNDATION_EXTERN MGL_EXPORT MGLExceptionName const MGLResourceNotFoundException;
+FOUNDATION_EXTERN MGL_EXPORT VMGLExceptionName const MGLResourceNotFoundException;
 
 @interface UIImage (MGLAdditions)
 

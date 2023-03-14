@@ -13,7 +13,7 @@ using namespace std::chrono_literals;
 - (void)testDurationToNSTimeInterval {
     
     NSTimeInterval timeInterval = 5;
-    mbgl::Duration duration = MGLDurationFromTimeInterval(timeInterval);
+    mbgl::Duration duration = VMGLDurationFromTimeInterval(timeInterval);
     NSTimeInterval durationTimeInterval = MGLTimeIntervalFromDuration(duration);
     
     mbgl::Duration expectedDuration = 5s;

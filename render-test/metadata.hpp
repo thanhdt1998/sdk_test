@@ -144,7 +144,7 @@ struct TestMetadata {
     double allowed = 0.00015; // diff
     std::string description;
     mbgl::MapMode mapMode = mbgl::MapMode::Static;
-    mbgl::MapDebugOptions debug = mbgl::MapDebugOptions::NoDebug;
+    mbgl::VMGLDebugOptions debug = mbgl::VMGLDebugOptions::NoDebug;
     bool crossSourceCollisions = true;
     bool axonometric = false;
     double xSkew = 0.0;

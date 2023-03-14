@@ -1,9 +1,9 @@
 #import <Foundation/Foundation.h>
 
-#import "MGLGeometry.h"
-#import "MGLLight.h"
-#import "MGLOfflinePack.h"
-#import "MGLTypes.h"
+#import "VMGLGeometry.h"
+#import "VMGLLight.h"
+#import "VMGLOfflinePack.h"
+#import "VMGLTypes.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -62,12 +62,12 @@ NS_ASSUME_NONNULL_BEGIN
  @param bounds The value for the new object.
  @return A new value object that contains the coordinate bounds information.
  */
-+ (instancetype)valueWithMGLCoordinateBounds:(MGLCoordinateBounds)bounds;
++ (instancetype)valueWithMGLCoordinateBounds:(VMGLCoordinateBounds)bounds;
 
 /**
  The Mapbox coordinate bounds structure representation of the value.
  */
-@property (readonly) MGLCoordinateBounds MGLCoordinateBoundsValue;
+@property (readonly) VMGLCoordinateBounds MGLCoordinateBoundsValue;
 
 /**
  Creates a new value object containing the specified Mapbox coordinate 

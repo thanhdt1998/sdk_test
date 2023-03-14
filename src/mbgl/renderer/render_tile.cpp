@@ -105,7 +105,7 @@ void RenderTile::prepare(const SourcePrepareParameters& parameters) {
 
     needsRendering = tile.usedByRenderedLayers;
 
-    if (parameters.debugOptions != MapDebugOptions::NoDebug &&
+    if (parameters.debugOptions != VMGLDebugOptions::NoDebug &&
         (!debugBucket || debugBucket->renderable != tile.isRenderable() ||
          debugBucket->complete != tile.isComplete() ||
          !(debugBucket->modified == tile.modified) ||
@@ -114,7 +114,7 @@ void RenderTile::prepare(const SourcePrepareParameters& parameters) {
         debugBucket = std::make_unique<DebugBucket>(
             tile.id, tile.isRenderable(), tile.isComplete(), tile.modified, tile.expires,
             parameters.debugOptions);
-    } else if (parameters.debugOptions == MapDebugOptions::NoDebug) {
+    } else if (parameters.debugOptions == VMGLDebugOptions::NoDebug) {
         debugBucket.reset();
     }
 
@@ -128,7 +128,7 @@ void RenderTile::prepare(const SourcePrepareParameters& parameters) {
 }
 
 void RenderTile::finishRender(PaintParameters& parameters) const {
-    if (!needsRendering || parameters.debugOptions == MapDebugOptions::NoDebug)
+    if (!needsRendering || parameters.debugOptions == VMGLDebugOptions::NoDebug)
         return;
 
     static const style::Properties<>::PossiblyEvaluated properties {};
@@ -136,7 +136,7 @@ void RenderTile::finishRender(PaintParameters& parameters) const {
 
     auto& program = parameters.programs.debug;
 
-    if (parameters.debugOptions & (MapDebugOptions::Timestamps | MapDebugOptions::ParseStatus)) {
+    if (parameters.debugOptions & (VMGLDebugOptions::Timestamps | VMGLDebugOptions::ParseStatus)) {
         assert(debugBucket);
         const auto allAttributeBindings =
             DebugProgram::computeAllAttributeBindings(*debugBucket->vertexBuffer, paintAttributeData, properties);
@@ -182,7 +182,7 @@ void RenderTile::finishRender(PaintParameters& parameters) const {
                      "text");
     }
 
-    if (parameters.debugOptions & MapDebugOptions::TileBorders) {
+    if (parameters.debugOptions & VMGLDebugOptions::TileBorders) {
         assert(debugBucket);
         if (debugBucket->tileBorderSegments.empty()) {
             debugBucket->tileBorderSegments = RenderStaticData::tileBorderSegments();

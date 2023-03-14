@@ -1,10 +1,10 @@
 #import "NSCompoundPredicate+MGLAdditions.h"
 
-#import "MGLStyleValue_Private.h"
+#import "VMGLStyleValue_Private.h"
 
 #import "NSPredicate+MGLPrivateAdditions.h"
 #import "NSExpression+MGLPrivateAdditions.h"
-#import "MGLLoggingConfiguration_Private.h"
+#import "VMGLLoggingConfiguration_Private.h"
 
 #include <mbgl/style/conversion/property_value.hpp>
 

@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-#import "MGLFoundation.h"
+#import "VMGLFoundation.h"
 #include <mbgl/util/chrono.hpp>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -8,7 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Converts from a duration in seconds to a duration object usable in mbgl.
 MGL_EXPORT
-mbgl::Duration MGLDurationFromTimeInterval(NSTimeInterval duration);
+mbgl::Duration VMGLDurationFromTimeInterval(NSTimeInterval duration);
 
 /// Converts from an mbgl duration object to a duration in seconds.
 MGL_EXPORT

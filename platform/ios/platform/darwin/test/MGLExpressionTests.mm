@@ -753,7 +753,7 @@ using namespace std::string_literals;
 
 - (void)testShapeDistanceExpressionObject {
     {
-        MGLPointAnnotation *point = [[MGLPointAnnotation alloc] init];
+        VMPointAnnotation *point = [[VMPointAnnotation alloc] init];
         point.coordinate = CLLocationCoordinate2DMake(1, -1);
         #if TARGET_OS_IPHONE
         XCTExpectFailure(@"Awaiting unit test refactoring for https://github.com/maplibre/maplibre-gl-native/issues/331");

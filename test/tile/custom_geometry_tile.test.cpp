@@ -31,7 +31,7 @@ public:
     GlyphManager glyphManager;
 
     TileParameters tileParameters{1.0,
-                                  MapDebugOptions(),
+                                  VMGLDebugOptions(),
                                   transformState,
                                   fileSource,
                                   MapMode::Continuous,

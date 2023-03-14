@@ -4,7 +4,7 @@
 #define MGLConstantExpression(constant) \
     [NSExpression expressionForConstantValue:constant]
 
-@interface MGLStyleLayerTests : XCTestCase <MGLMapViewDelegate>
+@interface MGLStyleLayerTests : XCTestCase <VMGLMapViewDelegate>
 
 @property (nonatomic, copy, readonly, class) NSString *layerType;
 

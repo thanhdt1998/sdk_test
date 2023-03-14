@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 31
 
     defaultConfig {
         applicationId = 'vn.vietmap.vietmapsdk.maps.render_test_runner'
         minSdkVersion 14
-        targetSdkVersion 28
+        targetSdkVersion 31
         def abi = 'all'
         if (project.hasProperty('mapbox.abis')) {
             abi = project.getProperty('mapbox.abis')

@@ -124,7 +124,7 @@ void Renderer::Impl::render(const RenderTree& renderTree) {
     // tiles whatsoever.
     {
         optional<Color> color;
-        if (parameters.debugOptions & MapDebugOptions::Overdraw) {
+        if (parameters.debugOptions & VMGLDebugOptions::Overdraw) {
             color = Color::black();
         } else if (!backend.contextIsShared()) {
             color = renderTreeParameters.backgroundColor;
@@ -185,10 +185,10 @@ void Renderer::Impl::render(const RenderTree& renderTree) {
     }
 
 #if !defined(NDEBUG)
-    if (parameters.debugOptions & MapDebugOptions::StencilClip) {
+    if (parameters.debugOptions & VMGLDebugOptions::StencilClip) {
         // Render tile clip boundaries, using stencil buffer to calculate fill color.
         parameters.context.visualizeStencilBuffer();
-    } else if (parameters.debugOptions & MapDebugOptions::DepthBuffer) {
+    } else if (parameters.debugOptions & VMGLDebugOptions::DepthBuffer) {
         // Render the depth buffer.
         parameters.context.visualizeDepthBuffer(parameters.depthRangeSize);
     }

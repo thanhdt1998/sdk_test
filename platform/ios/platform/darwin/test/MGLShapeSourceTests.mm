@@ -63,33 +63,33 @@
 
     NSData *data = [geoJSON dataUsingEncoding:NSUTF8StringEncoding];
     NSError *error;
-    MGLShape *shape = [MGLShape shapeWithData:data encoding:NSUTF8StringEncoding error:&error];
+    VMGLShape *shape = [VMGLShape shapeWithData:data encoding:NSUTF8StringEncoding error:&error];
     XCTAssertNil(error);
     XCTAssertNotNil(shape);
     MGLShapeSource *source = [[MGLShapeSource alloc] initWithIdentifier:@"source-id" shape:shape options:nil];
 
-    MGLShapeCollection *collection = (MGLShapeCollection *)source.shape;
+    VMGLShapeCollection *collection = (VMGLShapeCollection *)source.shape;
     XCTAssertNotNil(collection);
     XCTAssertEqual(collection.shapes.count, 1UL);
-    XCTAssertTrue([collection.shapes.firstObject isMemberOfClass:[MGLPolylineFeature class]]);
+    XCTAssertTrue([collection.shapes.firstObject isMemberOfClass:[VMGLPolylineFeature class]]);
 }
 
 - (void)testMGLShapeSourceWithSingleGeometry {
     NSData *data = [@"{\"type\": \"Point\", \"coordinates\": [0, 0]}" dataUsingEncoding:NSUTF8StringEncoding];
     NSError *error;
-    MGLShape *shape = [MGLShape shapeWithData:data encoding:NSUTF8StringEncoding error:&error];
+    VMGLShape *shape = [VMGLShape shapeWithData:data encoding:NSUTF8StringEncoding error:&error];
     XCTAssertNil(error);
     XCTAssertNotNil(shape);
     MGLShapeSource *source = [[MGLShapeSource alloc] initWithIdentifier:@"geojson" shape:shape options:nil];
     XCTAssertNotNil(source.shape);
-    XCTAssert([source.shape isKindOfClass:[MGLPointAnnotation class]]);
+    XCTAssert([source.shape isKindOfClass:[VMPointAnnotation class]]);
 }
 
 - (void)testMGLGeoJSONSourceWithSingleFeature {
     NSString *geoJSON = @"{\"type\": \"Feature\", \"properties\": {\"color\": \"green\"}, \"geometry\": { \"type\": \"Point\", \"coordinates\": [ -114.06847000122069, 51.050459433092655 ] }}";
     NSData *data = [geoJSON dataUsingEncoding:NSUTF8StringEncoding];
     NSError *error;
-    MGLShape *shape = [MGLShape shapeWithData:data encoding:NSUTF8StringEncoding error:&error];
+    VMGLShape *shape = [VMGLShape shapeWithData:data encoding:NSUTF8StringEncoding error:&error];
     XCTAssertNil(error);
     XCTAssertNotNil(shape);
     MGLShapeSource *source = [[MGLShapeSource alloc] initWithIdentifier:@"geojson" shape:shape options:nil];
@@ -101,12 +101,12 @@
 
 - (void)testMGLShapeSourceWithPolylineFeatures {
     CLLocationCoordinate2D coordinates[] = { CLLocationCoordinate2DMake(0, 0), CLLocationCoordinate2DMake(10, 10)};
-    MGLPolylineFeature *polylineFeature = [MGLPolylineFeature polylineWithCoordinates:coordinates count:2];
+    VMGLPolylineFeature *polylineFeature = [VMGLPolylineFeature polylineWithCoordinates:coordinates count:2];
 
     MGLShapeSource *source = [[MGLShapeSource alloc] initWithIdentifier:@"source-id" shape:polylineFeature options:nil];
 
     XCTAssertNotNil(source.shape);
-    XCTAssertTrue([source.shape isMemberOfClass:[MGLPolylineFeature class]]);
+    XCTAssertTrue([source.shape isMemberOfClass:[VMGLPolylineFeature class]]);
 }
 
 - (void)testMGLShapeSourceWithPolygonFeatures {
@@ -170,7 +170,7 @@
         CLLocationCoordinate2DMake(0.8, 100.2),
         CLLocationCoordinate2DMake(0.2, 100.2)};
 
-    MGLPolygon *polygon = [MGLPolygon polygonWithCoordinates:interiorCoordinates count:5];
+    VMGLPolygon *polygon = [VMGLPolygon polygonWithCoordinates:interiorCoordinates count:5];
 
     MGLPolygonFeature *polygonFeature = [MGLPolygonFeature polygonWithCoordinates:coordinates count:5 interiorPolygons:@[polygon]];
 
@@ -182,15 +182,15 @@
 
 - (void)testMGLShapeSourceWithMultiPolylineFeatures {
     CLLocationCoordinate2D firstCoordinates[] = { CLLocationCoordinate2DMake(0, 0), CLLocationCoordinate2DMake(10, 10)};
-    MGLPolylineFeature *firstPolylineFeature = [MGLPolylineFeature polylineWithCoordinates:firstCoordinates count:2];
+    VMGLPolylineFeature *firstPolylineFeature = [VMGLPolylineFeature polylineWithCoordinates:firstCoordinates count:2];
     CLLocationCoordinate2D secondCoordinates[] = { CLLocationCoordinate2DMake(0, 0), CLLocationCoordinate2DMake(10, 10)};
-    MGLPolylineFeature *secondPolylineFeature = [MGLPolylineFeature polylineWithCoordinates:secondCoordinates count:2];
-    MGLMultiPolylineFeature *multiPolylineFeature = [MGLMultiPolylineFeature multiPolylineWithPolylines:@[firstPolylineFeature, secondPolylineFeature]];
+    VMGLPolylineFeature *secondPolylineFeature = [VMGLPolylineFeature polylineWithCoordinates:secondCoordinates count:2];
+    VMGLMultiPolylineFeature *multiPolylineFeature = [VMGLMultiPolylineFeature multiPolylineWithPolylines:@[firstPolylineFeature, secondPolylineFeature]];
 
     MGLShapeSource *source = [[MGLShapeSource alloc] initWithIdentifier:@"source-id" shape:multiPolylineFeature options:nil];
 
     XCTAssertNotNil(source.shape);
-    XCTAssertTrue([source.shape isMemberOfClass:[MGLMultiPolylineFeature class]]);
+    XCTAssertTrue([source.shape isMemberOfClass:[VMGLMultiPolylineFeature class]]);
 }
 
 - (void)testMGLShapeSourceWithMultiPolygonFeatures {
@@ -208,7 +208,7 @@
         CLLocationCoordinate2DMake(0.8, 100.2),
         CLLocationCoordinate2DMake(0.2, 100.2)};
 
-    MGLPolygon *polygon = [MGLPolygon polygonWithCoordinates:interiorCoordinates count:5];
+    VMGLPolygon *polygon = [VMGLPolygon polygonWithCoordinates:interiorCoordinates count:5];
 
     MGLPolygonFeature *firstPolygon = [MGLPolygonFeature polygonWithCoordinates:coordinates count:5 interiorPolygons:@[polygon]];
     MGLPolygonFeature *secondPolygon = [MGLPolygonFeature polygonWithCoordinates:coordinates count:5 interiorPolygons:@[polygon]];
@@ -260,16 +260,16 @@
         CLLocationCoordinate2DMake(0.8, 100.2),
         CLLocationCoordinate2DMake(0.2, 100.2)};
 
-    MGLPolygon *polygon = [MGLPolygon polygonWithCoordinates:interiorCoordinates count:5];
+    VMGLPolygon *polygon = [VMGLPolygon polygonWithCoordinates:interiorCoordinates count:5];
 
     MGLPolygonFeature *polygonFeature = [MGLPolygonFeature polygonWithCoordinates:coordinates count:5 interiorPolygons:@[polygon]];
 
     CLLocationCoordinate2D coordinates_2[] = { CLLocationCoordinate2DMake(0, 0), CLLocationCoordinate2DMake(10, 10)};
-    MGLPolylineFeature *polylineFeature = [MGLPolylineFeature polylineWithCoordinates:coordinates_2 count:2];
+    VMGLPolylineFeature *polylineFeature = [VMGLPolylineFeature polylineWithCoordinates:coordinates_2 count:2];
 
     MGLMultiPolygonFeature *multiPolygonFeature = [MGLMultiPolygonFeature multiPolygonWithPolygons:@[polygonFeature, polygonFeature]];
 
-    MGLMultiPolylineFeature *multiPolylineFeature = [MGLMultiPolylineFeature multiPolylineWithPolylines:@[polylineFeature, polylineFeature]];
+    VMGLMultiPolylineFeature *multiPolylineFeature = [VMGLMultiPolylineFeature multiPolylineWithPolylines:@[polylineFeature, polylineFeature]];
 
     MGLPointCollectionFeature *pointCollectionFeature = [MGLPointCollectionFeature pointCollectionWithCoordinates:coordinates count:5];
 
@@ -302,7 +302,7 @@
     XCTAssertEqual(shape.shapes.count, 1UL, @"Shape collection should contain 1 shape");
 
     // when a shape is included in the features array
-    MGLPolygon *polygon = [MGLPolygon polygonWithCoordinates:coordinates count:sizeof(coordinates)/sizeof(coordinates[0]) interiorPolygons:nil];
+    VMGLPolygon *polygon = [VMGLPolygon polygonWithCoordinates:coordinates count:sizeof(coordinates)/sizeof(coordinates[0]) interiorPolygons:nil];
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wobjc-literal-conversion"
@@ -318,12 +318,12 @@
         CLLocationCoordinate2DMake(1.0, 100.0),
         CLLocationCoordinate2DMake(0.0, 100.0)};
 
-    MGLPolygon *polygon = [MGLPolygon polygonWithCoordinates:coordinates count:sizeof(coordinates)/sizeof(coordinates[0]) interiorPolygons:nil];
+    VMGLPolygon *polygon = [VMGLPolygon polygonWithCoordinates:coordinates count:sizeof(coordinates)/sizeof(coordinates[0]) interiorPolygons:nil];
 
     MGLShapeSource *source = [[MGLShapeSource alloc] initWithIdentifier:@"source-id" shapes:@[polygon] options:nil];
     MGLShapeCollectionFeature *shape = (MGLShapeCollectionFeature *)source.shape;
 
-    XCTAssertTrue([shape isKindOfClass:[MGLShapeCollection class]]);
+    XCTAssertTrue([shape isKindOfClass:[VMGLShapeCollection class]]);
     XCTAssertEqual(shape.shapes.count, 1UL, @"Shape collection should contain 1 shape");
 }
 

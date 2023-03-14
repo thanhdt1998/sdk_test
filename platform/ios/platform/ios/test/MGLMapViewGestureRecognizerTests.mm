@@ -8,7 +8,7 @@
 #include <mbgl/map/map.hpp>
 #include <mbgl/map/camera.hpp>
 
-@interface MGLMapView (MGLMapViewGestureRecognizerTests)
+@interface VMGLMapView (MGLMapViewGestureRecognizerTests)
 
 - (void)handlePinchGesture:(UIPinchGestureRecognizer *)pinch;
 - (void)handleRotateGesture:(UIRotationGestureRecognizer *)rotate;
@@ -19,9 +19,9 @@
 
 @end
 
-@interface MGLMapViewGestureRecognizerTests : XCTestCase <MGLMapViewDelegate>
+@interface MGLMapViewGestureRecognizerTests : XCTestCase <VMGLMapViewDelegate>
 
-@property (nonatomic) MGLMapView *mapView;
+@property (nonatomic) VMGLMapView *mapView;
 @property (nonatomic) UIWindow *window;
 @property (nonatomic) UIViewController *viewController;
 @property (nonatomic) XCTestExpectation *styleLoadingExpectation;
@@ -38,10 +38,10 @@
 - (void)setUp {
     [super setUp];
     
-    [MGLSettings setApiKey:@"pk.feedcafedeadbeefbadebede"];
+    [VMGLSettings setApiKey:@"pk.feedcafedeadbeefbadebede"];
     NSURL *styleURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"one-liner" withExtension:@"json"];
     self.screenBounds = UIScreen.mainScreen.bounds;
-    self.mapView = [[MGLMapView alloc] initWithFrame:self.screenBounds styleURL:styleURL];
+    self.mapView = [[VMGLMapView alloc] initWithFrame:self.screenBounds styleURL:styleURL];
     self.mapView.zoomLevel = 16;
     self.mapView.delegate = self;
     
@@ -58,7 +58,7 @@
     }
 }
 
-- (void)mapView:(MGLMapView *)mapView didFinishLoadingStyle:(MGLStyle *)style {
+- (void)mapView:(VMGLMapView *)mapView didFinishLoadingStyle:(VMGLStyle *)style {
     XCTAssertNotNil(mapView.style);
     XCTAssertEqual(mapView.style, style);
     

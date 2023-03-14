@@ -1,9 +1,9 @@
-#import "MGLFoundation_Private.h"
-#import "MGLGeometry_Private.h"
-#import "MGLShape_Private.h"
+#import "VMGLFoundation_Private.h"
+#import "VMGLGeometry_Private.h"
+#import "VMGLShape_Private.h"
 #import "NSExpression+MGLPrivateAdditions.h"
 
-#import "MGLTypes.h"
+#import "VMGLTypes.h"
 #if TARGET_OS_IPHONE
     #import "UIColor+MGLAdditions.h"
 #else
@@ -11,8 +11,8 @@
 #endif
 #import "NSPredicate+MGLAdditions.h"
 #import "NSValue+MGLStyleAttributeAdditions.h"
-#import "MGLVectorTileSource_Private.h"
-#import "MGLAttributedExpression.h"
+#import "VMGLVectorTileSource_Private.h"
+#import "VMGLAttributedExpression.h"
 
 #import <objc/runtime.h>
 
@@ -550,7 +550,7 @@ const MGLExpressionInterpolationMode MGLExpressionInterpolationModeCubicBezier =
 
 @end
 
-@implementation MGLShape (MGLExpressionAdditions)
+@implementation VMGLShape (MGLExpressionAdditions)
 
 - (id)mgl_jsonExpressionObject {
     return self.geoJSONDictionary;
@@ -697,7 +697,7 @@ NSArray *MGLSubexpressionsWithJSONObjects(NSArray *objects) {
         [object isKindOfClass:[NSNumber class]] ||
         [object isKindOfClass:[NSValue class]] ||
         [object isKindOfClass:[MGLColor class]] ||
-        [object isKindOfClass:[MGLShape class]]) {
+        [object isKindOfClass:[VMGLShape class]]) {
         return [NSExpression expressionForConstantValue:object];
     }
     
@@ -705,9 +705,9 @@ NSArray *MGLSubexpressionsWithJSONObjects(NSArray *objects) {
         if (object[@"type"]) {
             NSError *error;
             NSData *shapeData = [NSJSONSerialization dataWithJSONObject:object options:0 error:&error];
-            MGLShape *shape;
+            VMGLShape *shape;
             if (shapeData && !error) {
-                shape = [MGLShape shapeWithData:shapeData encoding:NSUTF8StringEncoding error:&error];
+                shape = [VMGLShape shapeWithData:shapeData encoding:NSUTF8StringEncoding error:&error];
             }
             if (shape && !error) {
                 return [NSExpression expressionForConstantValue:shape];
@@ -1087,8 +1087,8 @@ NSArray *MGLSubexpressionsWithJSONObjects(NSArray *objects) {
                 }
                 return @[jsonObject, attributedDictionary];
             }
-            if ([constantValue isKindOfClass:[MGLShape class]]) {
-                MGLShape *shape = (MGLShape *)constantValue;
+            if ([constantValue isKindOfClass:[VMGLShape class]]) {
+                VMGLShape *shape = (VMGLShape *)constantValue;
                 return shape.geoJSONDictionary;
             }
             return self.constantValue;

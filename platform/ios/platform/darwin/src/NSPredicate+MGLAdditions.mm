@@ -1,8 +1,8 @@
 #import "NSPredicate+MGLPrivateAdditions.h"
 
-#import "MGLValueEvaluator.h"
-#import "MGLStyleValue_Private.h"
-#import "MGLLoggingConfiguration_Private.h"
+#import "VMGLValueEvaluator.h"
+#import "VMGLStyleValue_Private.h"
+#import "VMGLLoggingConfiguration_Private.h"
 
 #include <mbgl/style/conversion/filter.hpp>
 
